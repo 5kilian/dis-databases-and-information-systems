@@ -2,12 +2,14 @@ package de.estate.data;
 
 import java.sql.*;
 
-/**
- * 
- */
+
 public class Agent {
 
-    private int id;
+    private static final String createSQL = "SELECT * FROM AGENTS WHERE ID = ?";
+    private static final String insertSQL = "INSERT INTO AGENTS(LOGIN, PASSWORD, ADDRESS) VALUES (?, ?, ?)";
+    private static final String updateSQL = "UPDATE AGENTS SET LOGIN = ?, PASSWORD = ?, ADDRESS = ? WHERE id = ?";
+
+    private int id = -1;
 
     private String address;
 
@@ -47,32 +49,21 @@ public class Agent {
         this.password = password;
     }
 
-    /**
-     * Lädt einen Makler aus der Datenbank
-     * @param id ID des zu ladenden Maklers
-     * @return Makler-Instanz
-     */
     public static Agent load(int id) {
         try {
-            // Hole Verbindung
-            Connection con = DB2Connection.getInstance().getConnection();
+            PreparedStatement statement = DB2Connection.getConnection().prepareStatement(createSQL);
+            statement.setInt(1, id);
+            ResultSet result = statement.executeQuery();
 
-            // Erzeuge Anfrage
-            String selectSQL = "SELECT * FROM AGENTS WHERE ID = ?";
-            PreparedStatement pstmt = con.prepareStatement(selectSQL);
-            pstmt.setInt(1, id);
-
-            // Führe Anfrage aus
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
+            if (result.next()) {
                 Agent ts = new Agent();
                 ts.setId(id);
-                ts.setLogin(rs.getString("login"));
-                ts.setPassword(rs.getString("password"));
-                ts.setAddress(rs.getString("address"));
+                ts.setLogin(result.getString("login"));
+                ts.setPassword(result.getString("password"));
+                ts.setAddress(result.getString("address"));
 
-                rs.close();
-                pstmt.close();
+                result.close();
+                statement.close();
                 return ts;
             }
         } catch (SQLException e) {
@@ -81,51 +72,35 @@ public class Agent {
         return null;
     }
 
-    /**
-     * Speichert den Makler in der Datenbank. Ist noch keine ID vergeben
-     * worden, wird die generierte Id von DB2 geholt und dem Model übergeben.
-     */
     public void save() {
-        // Hole Verbindung
-        Connection con = DB2Connection.getInstance().getConnection();
+        Connection con = DB2Connection.getConnection();
 
         try {
-            // FC<ge neues Element hinzu, wenn das Objekt noch keine ID hat.
             if (getId() == -1) {
-                // Achtung, hier wird noch ein Parameter mitgegeben,
-                // damit spC$ter generierte IDs zurC<ckgeliefert werden!
-                String insertSQL = "INSERT INTO AGENTS(LOGIN, PASSWORD, ADDRESS) VALUES (?, ?, ?)";
+                PreparedStatement statement = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 
-                PreparedStatement pstmt = con.prepareStatement(insertSQL,
-                        Statement.RETURN_GENERATED_KEYS);
+                statement.setString(1, getLogin());
+                statement.setString(2, getPassword());
+                statement.setString(3, getAddress());
+                statement.executeUpdate();
 
-                // Setze Anfrageparameter und fC<hre Anfrage aus
-                pstmt.setString(1, getLogin());
-                pstmt.setString(2, getPassword());
-                pstmt.setString(3, getAddress());
-                pstmt.executeUpdate();
-
-                // Hole die Id des engefC<gten Datensatzes
-                ResultSet rs = pstmt.getGeneratedKeys();
-                if (rs.next()) {
-                    setId(rs.getInt(1));
+                ResultSet result = statement.getGeneratedKeys();
+                if (result.next()) {
+                    setId(result.getInt(1));
                 }
 
-                rs.close();
-                pstmt.close();
+                result.close();
+                statement.close();
             } else {
-                // Falls schon eine ID vorhanden ist, mache ein Update...
-                String updateSQL = "UPDATE AGENTS SET LOGIN = ?, PASSWORD = ?, ADDRESS = ? WHERE id = ?";
-                PreparedStatement pstmt = con.prepareStatement(updateSQL);
+                PreparedStatement statement = con.prepareStatement(updateSQL);
 
-                // Setze Anfrage Parameter
-                pstmt.setString(1, getLogin());
-                pstmt.setString(2, getPassword());
-                pstmt.setString(3, getAddress());
-                pstmt.setInt(4, getId());
-                pstmt.executeUpdate();
+                statement.setString(1, getLogin());
+                statement.setString(2, getPassword());
+                statement.setString(3, getAddress());
+                statement.setInt(4, getId());
+                statement.executeUpdate();
 
-                pstmt.close();
+                statement.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
