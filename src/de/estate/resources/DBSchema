@@ -1,0 +1,12 @@
+Estates (id, city, plz, street, number, area, manages->agent.login)
+Agents (name, addres, login, passwort)
+Apartment (id->Estate.id, floor, rent, rooms, balcony, kitchen)
+House (id->Estate.id, floors, price, garden)
+Sells (house->house.id, purchase->purchase.no, firstname->person.firstname,
+name->person.name, address->person.address)
+Person (firstname, name, address)
+Rent (apartment->apartment.id, tenancy->Tenancy.no, firstname->person.firstname,
+name->person.name, address->person.address)
+Tenancy (contract->Contract.no, start, duration, cost)
+Purchase (contract->Contract.no, installments, rate)
+Contract (no, data, place)
