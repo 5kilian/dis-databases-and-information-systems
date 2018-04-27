@@ -2,7 +2,7 @@ package de.estate.data;
 
 public class Estate {
 
-    protected int id;
+    protected int id = -1;
 
     protected String city;
 

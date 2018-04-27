@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Contract {
 
-    protected int id;
+    protected int id = -1;
 
     protected Date date;
 
