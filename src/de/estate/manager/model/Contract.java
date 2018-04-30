@@ -1,4 +1,4 @@
-package de.estate.data;
+package de.estate.manager.model;
 
 import java.util.Date;
 

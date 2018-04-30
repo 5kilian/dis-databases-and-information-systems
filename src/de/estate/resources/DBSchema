@@ -1,4 +1,4 @@
-Estates (id, city, plz, street, number, area, manages->agent.login)
+Estates (id, city, zip, street, number, area, manages->agent.login)
 Agents (name, addres, login, passwort)
 Apartment (id->Estate.id, floor, rent, rooms, balcony, kitchen)
 House (id->Estate.id, floors, price, garden)

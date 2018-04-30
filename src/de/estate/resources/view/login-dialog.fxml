@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<DialogPane fx:id="loginDialog"
+            prefWidth="300"
+            xmlns="http://javafx.com/javafx/8.0.112"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="de.estate.manager.controller.LoginController">
+  <headerText>
+    Sign in
+  </headerText>
+  <graphic>
+    <ImageView>
+      <image>
+        <Image url="@../images/48/sign-in.png" />
+      </image>
+    </ImageView>
+  </graphic>
+  <content>
+    <VBox>
+      <padding>
+        <Insets>
+          <bottom>25</bottom>
+          <left>25</left>
+          <right>25</right>
+          <top>25</top>
+        </Insets>
+      </padding>
+
+      <Label text="Login">
+        <VBox.margin>
+          <Insets top="10.0" />
+        </VBox.margin>
+      </Label>
+      <TextField fx:id="loginField"
+                 onKeyTyped="#validateData"
+                 promptText="Login">
+        <VBox.margin>
+          <Insets top="5.0" />
+        </VBox.margin>
+      </TextField>
+
+      <Label text="Password">
+        <VBox.margin>
+          <Insets top="10.0" />
+        </VBox.margin>
+      </Label>
+      <TextField fx:id="passwordField"
+                 onKeyTyped="#validateData"
+                 promptText="Password">
+        <VBox.margin>
+          <Insets top="5.0" />
+        </VBox.margin>
+      </TextField>
+
+    </VBox>
+  </content>
+  <buttonTypes>
+    <ButtonType text="Sign in"
+                fx:id="signInButton" />
+    <ButtonType fx:constant="CANCEL" />
+  </buttonTypes>
+</DialogPane>

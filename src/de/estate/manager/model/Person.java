@@ -1,20 +1,22 @@
-package de.estate.data;
+package de.estate.manager.model;
 
-public class Sell {
+import de.estate.manager.util.DB2Connection;
 
-    private static final String createSQL = "SELECT * FROM SELL WHERE ID = ?";
-    private static final String insertSQL = "INSERT INTO SELLS (PERSON, HOUSE, PURCHASE") +
-            " VALUES ( ?, ?, ?)";
-    private static final String updateSQL = "UPDATE SELLS PERSON = ?, HOUSE = ?," +
-            " PURCHASE = ?  WHERE id = ?";
+import java.sql.*;
+
+public class Person {
+
+    private static final String createSQL = "SELECT * FROM PERSON WHERE ID = ?";
+    private static final String insertSQL = "INSERT INTO PERSONS (FIRSTNAME, NAME, ADRESS) VALUES  (?, ?, ?)";
+    private static final String updateSQL = "UPDATE PERSONS SET FIRSTNAME = ?, NAME = ?, ADDRESS = ? WHERE id = ?";
 
     private int id = -1;
 
-    private Person person;
+    private String firstName;
 
-    private House house;
+    private String name;
 
-    private Purchase purchase;
+    private String address;
 
     public int getId() {
         return id;
@@ -24,44 +26,44 @@ public class Sell {
         this.id = id;
     }
 
-    public Person getPerson() {
-        return person;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public House getHouse() {
-        return house;
+    public String getName() {
+        return name;
     }
 
-    public void setHouse(House house) {
-        this.house = house;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Purchase getPurchase() {
-        return purchase;
+    public String getAddress() {
+        return address;
     }
 
-    public void setPurchase(Purchase purchase) {
-        this.purchase = purchase;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public static Sell load(int id) {
+
+    public static Person load(int id) {
         try {
             PreparedStatement statement = DB2Connection.getConnection().prepareStatement(createSQL);
             statement.setInt(1, id);
             ResultSet result = statement.executeQuery();
 
             if (result.next()) {
-                Sell ts = new Sell();
+                Person ts = new Person();
                 ts.setId(id);
 
-                ts.setPerson(result.getPerson("person")); //?
-                ts.setHouse(result.getHouse("house")); //?
-                ts.setPurchase(result.getPurchase("purchase"));
-
+                ts.setFirstName(result.getString("firstName"));
+                ts.setName(result.getString("name"));
+                ts.setAddress(result.getString("address"));
 
                 result.close();
                 statement.close();
@@ -80,9 +82,10 @@ public class Sell {
             if (getId() == -1) {
                 PreparedStatement statement = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 
-                statement.setPerson(1, getPerson()); //?
-                statement.setHouse(2, getHouse());
-                statement.setPurchase(3, getPurchase());
+                statement.setString(1, getFirstName());
+                statement.setString(2, getName());
+                statement.setString(3, getAddress());
+
 
                 statement.executeUpdate();
 
@@ -96,9 +99,9 @@ public class Sell {
             } else {
                 PreparedStatement statement = con.prepareStatement(updateSQL);
 
-                statement.setPerson(1, getPerson()); //?
-                statement.setHouse(2, getHouse());
-                statement.setPurchase(3, getPurchase());
+                statement.setString(1, getFirstName());
+                statement.setString(2, getName());
+                statement.setString(3, getAddress());
 
                 statement.setInt(4, getId());
                 statement.executeUpdate();

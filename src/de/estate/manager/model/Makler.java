@@ -1,4 +1,6 @@
-package de.estate.data;
+package de.estate.manager.model;
+
+import de.estate.manager.util.DB2Connection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

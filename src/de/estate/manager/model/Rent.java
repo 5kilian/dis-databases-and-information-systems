@@ -1,9 +1,13 @@
-package de.estate.data;
+package de.estate.manager.model;
+
+import de.estate.manager.util.DB2Connection;
+
+import java.sql.*;
 
 public class Rent {
 
     private static final String createSQL = "SELECT * FROM RENT WHERE ID = ?";
-    private static final String insertSQL = "INSERT INTO RENTS (APARTMENT, TENANCY, PERSON") +
+    private static final String insertSQL = "INSERT INTO RENTS (APARTMENT, TENANCY, PERSON)" +
             " VALUES ( ?, ?, ?)";
     private static final String updateSQL = "UPDATE RENTS APARTMENT = ?, TENANCY = ?," +
             " PERSON = ?  WHERE id = ?";
@@ -59,9 +63,9 @@ public class Rent {
                 Rent ts = new Rent();
                 ts.setId(id);
 
-                ts.setPerson(result.setPerson("person")); //?
-                ts.setApartment(result.setApartment("apartment")); //?
-                ts.setTenancy(result.setTenancy("tenancy"));
+                // ts.setPerson(result.setPerson("person")); //?
+                // ts.setApartment(result.setApartment("apartment")); //?
+                // ts.setTenancy(result.setTenancy("tenancy"));
 
 
                 result.close();
@@ -81,9 +85,9 @@ public class Rent {
             if (getId() == -1) {
                 PreparedStatement statement = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 
-                statement.setApartment(1, getApartment());
-                statement.setTenancy(2,getTenancy());
-                statement.setPerson(3, getPerson()); //?
+                // statement.setApartment(1, getApartment());
+                // statement.setTenancy(2,getTenancy());
+                // statement.setPerson(3, getPerson()); //?
 
                 statement.executeUpdate();
 
@@ -97,9 +101,9 @@ public class Rent {
             } else {
                 PreparedStatement statement = con.prepareStatement(updateSQL);
 
-                statement.setApartment(1, getApartment());
-                statement.setTenancy(2,getTenancy());
-                statement.setPerson(3, getPerson()); //?
+                // statement.setApartment(1, getApartment());
+                // statement.setTenancy(2,getTenancy());
+                // statement.setPerson(3, getPerson()); //?
 
                 statement.setInt(4, getId());
                 statement.executeUpdate();

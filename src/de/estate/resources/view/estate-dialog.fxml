@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<DialogPane fx:id="addDialog" prefWidth="400" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.estate.manager.controller.EstateController">
+  <headerText>
+    Add new estate
+  </headerText>
+  <graphic>
+    <ImageView>
+      <image>
+        <Image url="@../images/48/plus.png" />
+      </image>
+    </ImageView>
+  </graphic>
+  <content>
+    <VBox>
+      <padding>
+        <Insets>
+          <bottom>25</bottom>
+          <left>25</left>
+          <right>25</right>
+          <top>25</top>
+        </Insets>
+      </padding>
+
+      <HBox>
+        <VBox HBox.hgrow="ALWAYS">
+          <Label text="Street">
+            <VBox.margin>
+              <Insets top="10.0" />
+            </VBox.margin>
+          </Label>
+          <TextField fx:id="streetField" onKeyTyped="#validateData" promptText="Street">
+            <VBox.margin>
+              <Insets top="5.0" />
+            </VBox.margin>
+          </TextField>
+        </VBox>
+
+        <VBox maxWidth="70.0" minWidth="70.0" prefWidth="70.0">
+          <Label text="Number">
+            <VBox.margin>
+              <Insets top="10.0" />
+            </VBox.margin>
+          </Label>
+          <TextField fx:id="numberField" onKeyTyped="#validateData" promptText="Number">
+            <VBox.margin>
+              <Insets top="5.0" />
+            </VBox.margin>
+          </TextField>
+          <HBox.margin>
+            <Insets left="10.0" />
+          </HBox.margin>
+        </VBox>
+      </HBox>
+
+      <HBox>
+        <VBox maxWidth="80.0" minWidth="80.0" prefWidth="80.0">
+          <Label text="ZIP">
+            <VBox.margin>
+              <Insets top="10.0" />
+            </VBox.margin>
+          </Label>
+          <TextField fx:id="zipField" onKeyTyped="#validateData" promptText="ZIP">
+            <VBox.margin>
+              <Insets top="5.0" />
+            </VBox.margin>
+          </TextField>
+          <padding>
+            <Insets right="10.0" />
+          </padding>
+        </VBox>
+        <VBox HBox.hgrow="ALWAYS">
+          <Label text="City">
+            <VBox.margin>
+              <Insets top="10.0" />
+            </VBox.margin>
+          </Label>
+          <TextField fx:id="cityField" onKeyTyped="#validateData" promptText="City">
+            <VBox.margin>
+              <Insets top="5.0" />
+            </VBox.margin>
+          </TextField>
+        </VBox>
+
+        <VBox maxWidth="48.0" minWidth="48.0" prefWidth="48.0">
+          <Label text="Area">
+            <VBox.margin>
+              <Insets top="10.0" />
+            </VBox.margin>
+          </Label>
+          <TextField fx:id="areaField" onKeyTyped="#validateData" promptText="Area">
+            <VBox.margin>
+              <Insets top="5.0" />
+            </VBox.margin>
+          </TextField>
+          <HBox.margin>
+            <Insets left="10.0" />
+          </HBox.margin>
+        </VBox>
+      </HBox>
+
+      <TabPane>
+        <tabs>
+          <Tab closable="false" text="House">
+            <VBox>
+              <Label text="Floors">
+                <VBox.margin>
+                  <Insets top="10.0" />
+                </VBox.margin>
+              </Label>
+              <TextField fx:id="floorsField" onKeyTyped="#validateData" promptText="Floors">
+                <VBox.margin>
+                  <Insets top="5.0" />
+                </VBox.margin>
+              </TextField>
+              <Label text="Price">
+                <VBox.margin>
+                  <Insets top="10.0" />
+                </VBox.margin>
+              </Label>
+              <TextField fx:id="priceField" onKeyTyped="#validateData" promptText="Price">
+                <VBox.margin>
+                  <Insets top="5.0" />
+                </VBox.margin>
+              </TextField>
+              <Label text="Garden">
+                <VBox.margin>
+                  <Insets top="10.0" />
+                </VBox.margin>
+              </Label>
+              <TextField fx:id="gardenField" onKeyTyped="#validateData" promptText="Garden">
+                <VBox.margin>
+                  <Insets top="5.0" />
+                </VBox.margin>
+              </TextField>
+            </VBox>
+          </Tab>
+          <Tab closable="false" text="Apartment">
+            <VBox>
+              <HBox VBox.vgrow="ALWAYS">
+                <VBox>
+                  <Label text="Floor">
+                    <VBox.margin>
+                      <Insets top="10.0" />
+                    </VBox.margin>
+                  </Label>
+                  <TextField fx:id="floorField" maxWidth="48.0" minWidth="48.0" onKeyTyped="#validateData" prefWidth="48.0" promptText="Floor">
+                    <VBox.margin>
+                      <Insets top="5.0" />
+                    </VBox.margin>
+                  </TextField>
+                </VBox>
+                <VBox>
+                  <Label text="Rent">
+                    <VBox.margin>
+                      <Insets top="10.0" />
+                    </VBox.margin>
+                  </Label>
+                  <TextField fx:id="rentField" onKeyTyped="#validateData" promptText="Rent">
+                    <VBox.margin>
+                      <Insets top="5.0" />
+                    </VBox.margin>
+                  </TextField>
+                </VBox>
+                <VBox>
+                  <Label text="Rooms">
+                    <VBox.margin>
+                      <Insets top="10.0" />
+                    </VBox.margin>
+                  </Label>
+                  <TextField fx:id="roomsField" maxWidth="56.0" minWidth="56.0" onKeyTyped="#validateData" prefWidth="56.0" promptText="Rooms">
+                    <VBox.margin>
+                      <Insets top="5.0" />
+                    </VBox.margin>
+                  </TextField>
+                </VBox>
+                <VBox>
+                  <Label text="Kitchen">
+                    <VBox.margin>
+                      <Insets top="10.0" />
+                    </VBox.margin>
+                  </Label>
+                  <CheckBox fx:id="kitchenField" onKeyTyped="#validateData">
+                    <VBox.margin>
+                      <Insets top="5.0" />
+                    </VBox.margin>
+                  </CheckBox>
+                </VBox>
+              </HBox>
+            </VBox>
+          </Tab>
+        </tabs>
+        <padding>
+          <Insets top="15.0" />
+        </padding>
+
+      </TabPane>
+
+    </VBox>
+  </content>
+  <buttonTypes>
+    <ButtonType fx:id="addButton" text="Save" />
+    <ButtonType fx:constant="CANCEL" />
+  </buttonTypes>
+</DialogPane>

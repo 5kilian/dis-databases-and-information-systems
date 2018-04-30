@@ -1,4 +1,4 @@
-package de.estate.data;
+package de.estate.manager.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,9 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 /**

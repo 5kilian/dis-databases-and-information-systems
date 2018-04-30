@@ -1,6 +1,5 @@
 package de.estate.manager;
 
-import de.estate.data.DB2Connection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,13 +9,11 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../resources/style.fxml"));
-        primaryStage.setTitle("Estate manager");
-        primaryStage.setScene(new Scene(root, 800, 600));
-        primaryStage.show();
-
-        DB2Connection.getInstance().getConnection();
+    public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../resources/view/home.fxml"));
+        stage.setTitle("Estate manager");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     public static void main(String[] args) {

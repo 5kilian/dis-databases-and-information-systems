@@ -1,4 +1,6 @@
-package de.estate.data;
+package de.estate.manager.model;
+
+import de.estate.manager.util.DB2Connection;
 
 import java.sql.*;
 
@@ -6,12 +8,14 @@ import java.sql.*;
 public class Agent {
 
     private static final String createSQL = "SELECT * FROM AGENTS WHERE ID = ?";
-    private static final String insertSQL = "INSERT INTO AGENTS(LOGIN, PASSWORD, ADDRESS) VALUES (?, ?, ?)";
-    private static final String updateSQL = "UPDATE AGENTS SET LOGIN = ?, PASSWORD = ?, ADDRESS = ? WHERE id = ?";
+    private static final String insertSQL = "INSERT INTO AGENTS(NAME, LOGIN, PASSWORD, ADDRESS) VALUES (?, ?, ?, ?)";
+    private static final String updateSQL = "UPDATE AGENTS SET NAME = ?, LOGIN = ?, PASSWORD = ?, ADDRESS = ? WHERE ID = ?";
 
     private int id = -1;
 
     private String address;
+
+    private String name;
 
     private String login;
 
@@ -23,6 +27,14 @@ public class Agent {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {
@@ -56,15 +68,16 @@ public class Agent {
             ResultSet result = statement.executeQuery();
 
             if (result.next()) {
-                Agent ts = new Agent();
-                ts.setId(id);
-                ts.setLogin(result.getString("login"));
-                ts.setPassword(result.getString("password"));
-                ts.setAddress(result.getString("address"));
+                Agent agent = new Agent();
+                agent.setId(id);
+                agent.setName(result.getString("name"));
+                agent.setLogin(result.getString("login"));
+                agent.setPassword(result.getString("password"));
+                agent.setAddress(result.getString("address"));
 
                 result.close();
                 statement.close();
-                return ts;
+                return agent;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,9 +92,10 @@ public class Agent {
             if (getId() == -1) {
                 PreparedStatement statement = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 
-                statement.setString(1, getLogin());
-                statement.setString(2, getPassword());
-                statement.setString(3, getAddress());
+                statement.setString(1, getName());
+                statement.setString(2, getLogin());
+                statement.setString(3, getPassword());
+                statement.setString(4, getAddress());
                 statement.executeUpdate();
 
                 ResultSet result = statement.getGeneratedKeys();
@@ -94,10 +108,11 @@ public class Agent {
             } else {
                 PreparedStatement statement = con.prepareStatement(updateSQL);
 
-                statement.setString(1, getLogin());
-                statement.setString(2, getPassword());
-                statement.setString(3, getAddress());
-                statement.setInt(4, getId());
+                statement.setString(1, getName());
+                statement.setString(2, getLogin());
+                statement.setString(3, getPassword());
+                statement.setString(4, getAddress());
+                statement.setInt(5, getId());
                 statement.executeUpdate();
 
                 statement.close();

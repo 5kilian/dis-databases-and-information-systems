@@ -1,12 +1,16 @@
-package de.estate.data;
+package de.estate.manager.model;
+
+import de.estate.manager.util.DB2Connection;
+
+import java.sql.*;
 
 public class Purchase extends Contract{
 
 
     private static final String createSQL = "SELECT * FROM PURCHASE WHERE ID = ?";
     private static final String insertSQL = "INSERT INTO PURCHASES (INSTALLMENTS, RATE," +
-            " DATE, PLACE VALUES ( ?, ?, ?, ?, )";
-    private static final String updateSQL = "UPDATE PURCHASES INSTALLMENTS = ?, RATE = ?," +
+            " DATE, PLACE) VALUES ( ?, ?, ?, ? )";
+    private static final String updateSQL = "UPDATE PURCHASES SET INSTALLMENTS = ?, RATE = ?," +
             " DATE = ?, PLACE = ? WHERE id = ?";
 
     private int installments;
@@ -67,7 +71,7 @@ public class Purchase extends Contract{
                 statement.setInt(1, getInstallments());
                 statement.setInt(2, getRate());
 
-                statement.setDate(3, getDate());
+                // statement.setDate(3, getDate());
                 statement.setString(4, getPlace());
 
 
@@ -83,10 +87,10 @@ public class Purchase extends Contract{
             } else {
                 PreparedStatement statement = con.prepareStatement(updateSQL);
 
-                statement.setDate(1, getInstallments());
+                // statement.setDate(1, getInstallments());
                 statement.setInt(2, getRate());
 
-                statement.setDate(3, getDate());
+                // statement.setDate(3, getDate());
                 statement.setString(4, getPlace());
 
                 statement.setInt(5, getId());
