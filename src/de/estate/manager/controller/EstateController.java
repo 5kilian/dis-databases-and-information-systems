@@ -2,6 +2,7 @@ package de.estate.manager.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -27,10 +28,18 @@ public class EstateController {
     @FXML
     public TextField priceField;
     @FXML
-    public TextField gardenField;
+    public CheckBox gardenField;
+    @FXML
+    public TextField floorField;
+    @FXML
+    public TextField rentField;
+    @FXML
+    public TextField roomsField;
+    @FXML
+    public CheckBox kitchenField;
 
 
     public void validateData(KeyEvent keyEvent) {
-
+        addDialog.lookupButton(addButton).setDisable(false);
     }
 }

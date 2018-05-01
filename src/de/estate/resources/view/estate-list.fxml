@@ -50,12 +50,19 @@
     <center>
       <TableView fx:id="tableView">
         <columns>
-          <TableColumn text="ID" prefWidth="48" minWidth="48" maxWidth="48">
+          <TableColumn text="ID"
+                       prefWidth="48"
+                       minWidth="48"
+                       maxWidth="48">
             <cellValueFactory>
               <PropertyValueFactory property="Id" />
             </cellValueFactory>
           </TableColumn>
-          <TableColumn prefWidth="24" minWidth="24" maxWidth="24" resizable="false">
+          <TableColumn fx:id="typeColumn"
+                       prefWidth="24"
+                       minWidth="24"
+                       maxWidth="24"
+                       resizable="false">
             <cellValueFactory>
               <PropertyValueFactory property="Type" />
             </cellValueFactory>

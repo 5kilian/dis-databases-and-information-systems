@@ -1,11 +1,11 @@
 package de.estate.manager.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -13,34 +13,34 @@ import java.io.IOException;
 public class HomeController {
 
     @FXML
-    public Button agentButton;
+    public VBox agentButton;
     @FXML
-    public Button estateButton;
+    public VBox estateButton;
     @FXML
-    public Button contractButton;
+    public VBox contractButton;
 
-    public void openAgentManager(ActionEvent actionEvent) {
+    public void openAgentManager(MouseEvent actionEvent) {
         try {
             Stage stage = (Stage) agentButton.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../../resources/view/agent-list.fxml"));
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root, 800, 600));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public void openEstateManager(ActionEvent actionEvent) {
+    public void openEstateManager(MouseEvent actionEvent) {
         try {
             Stage stage = (Stage) agentButton.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../../resources/view/estate-list.fxml"));
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root, 800, 600));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void openContractManager(ActionEvent actionEvent) {
+    public void openContractManager(MouseEvent actionEvent) {
 
     }
 }

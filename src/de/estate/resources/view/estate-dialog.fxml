@@ -112,40 +112,60 @@
         </VBox>
       </HBox>
 
-      <TabPane>
+      <TabPane fx:id="typePane">
         <tabs>
           <Tab closable="false" text="House">
             <VBox>
-              <Label text="Floors">
-                <VBox.margin>
-                  <Insets top="10.0" />
-                </VBox.margin>
-              </Label>
-              <TextField fx:id="floorsField" onKeyTyped="#validateData" promptText="Floors">
-                <VBox.margin>
-                  <Insets top="5.0" />
-                </VBox.margin>
-              </TextField>
-              <Label text="Price">
-                <VBox.margin>
-                  <Insets top="10.0" />
-                </VBox.margin>
-              </Label>
-              <TextField fx:id="priceField" onKeyTyped="#validateData" promptText="Price">
-                <VBox.margin>
-                  <Insets top="5.0" />
-                </VBox.margin>
-              </TextField>
-              <Label text="Garden">
-                <VBox.margin>
-                  <Insets top="10.0" />
-                </VBox.margin>
-              </Label>
-              <TextField fx:id="gardenField" onKeyTyped="#validateData" promptText="Garden">
-                <VBox.margin>
-                  <Insets top="5.0" />
-                </VBox.margin>
-              </TextField>
+              <HBox VBox.vgrow="ALWAYS">
+                <VBox HBox.hgrow="SOMETIMES">
+                  <Label text="Floors">
+                    <VBox.margin>
+                      <Insets top="10.0" />
+                    </VBox.margin>
+                  </Label>
+                  <TextField fx:id="floorsField" onKeyTyped="#validateData" promptText="Floors">
+                    <VBox.margin>
+                      <Insets top="5.0" />
+                    </VBox.margin>
+                  </TextField>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                </VBox>
+                <VBox HBox.hgrow="SOMETIMES">
+                  <Label text="Price">
+                    <VBox.margin>
+                      <Insets top="10.0" />
+                    </VBox.margin>
+                  </Label>
+                  <TextField fx:id="priceField" onKeyTyped="#validateData" promptText="Price">
+                    <VBox.margin>
+                      <Insets top="5.0" />
+                    </VBox.margin>
+                  </TextField>
+                </VBox>
+                <VBox minWidth="65.0" prefWidth="65.0">
+                  <Label text="Garden">
+                    <VBox.margin>
+                      <Insets top="10.0" />
+                    </VBox.margin>
+                  </Label>
+                  <CheckBox fx:id="gardenField" onKeyTyped="#validateData">
+                    <VBox.margin>
+                      <Insets />
+                    </VBox.margin>
+                              <padding>
+                                 <Insets left="8.0" />
+                              </padding>
+                  </CheckBox>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                </VBox>
+              </HBox>
             </VBox>
           </Tab>
           <Tab closable="false" text="Apartment">
@@ -162,8 +182,11 @@
                       <Insets top="5.0" />
                     </VBox.margin>
                   </TextField>
+                  <HBox.margin>
+                    <Insets right="10.0" />
+                  </HBox.margin>
                 </VBox>
-                <VBox>
+                <VBox HBox.hgrow="SOMETIMES">
                   <Label text="Rent">
                     <VBox.margin>
                       <Insets top="10.0" />
@@ -186,8 +209,11 @@
                       <Insets top="5.0" />
                     </VBox.margin>
                   </TextField>
+                  <HBox.margin>
+                    <Insets left="10.0" right="10.0" />
+                  </HBox.margin>
                 </VBox>
-                <VBox>
+                <VBox minWidth="50.0">
                   <Label text="Kitchen">
                     <VBox.margin>
                       <Insets top="10.0" />
@@ -195,7 +221,7 @@
                   </Label>
                   <CheckBox fx:id="kitchenField" onKeyTyped="#validateData">
                     <VBox.margin>
-                      <Insets top="5.0" />
+                      <Insets left="16.0" top="8.0" />
                     </VBox.margin>
                   </CheckBox>
                 </VBox>

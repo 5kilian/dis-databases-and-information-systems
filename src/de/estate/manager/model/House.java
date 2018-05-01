@@ -16,6 +16,23 @@ public class House extends Estate {
 
     private boolean garden;
 
+    public House() {
+
+    }
+
+    /**
+     * Copy Constructor
+     */
+    public House(Estate estate) {
+        id = estate.id;
+        city = estate.city;
+        zip = estate.zip;
+        street = estate.street;
+        number = estate.number;
+        area = estate.area;
+        agent = estate.agent;
+    }
+
     public int getFloors() {
         return floors;
     }
@@ -47,7 +64,7 @@ public class House extends Estate {
             ResultSet result = statement.executeQuery();
 
             if (result.next()) {
-                House house = (House) Estate.load(result.getInt("id"));
+                House house = new House(Estate.load(result.getInt("id")));
 
                 house.setFloors(result.getInt("floors"));
                 house.setPrice(result.getDouble("price"));
@@ -64,11 +81,11 @@ public class House extends Estate {
     }
 
     public void save() {
-        super.save();
         Connection con = DB2Connection.getConnection();
 
         try {
             if (getId() == -1) {
+                super.save();
                 PreparedStatement statement = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 
                 statement.setInt(1, getId());
@@ -79,6 +96,7 @@ public class House extends Estate {
                 statement.executeUpdate();
                 statement.close();
             } else {
+                super.save();
                 PreparedStatement statement = con.prepareStatement(updateSQL);
 
                 statement.setInt(1, getFloors());

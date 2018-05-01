@@ -146,7 +146,7 @@ public class AgentListController {
         try {
             Stage stage = (Stage) tableView.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("../../resources/view/home.fxml"));
-            stage.setScene(new Scene(root));
+            stage.setScene(new Scene(root, 800, 600));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -22,6 +22,23 @@ public class Apartment extends Estate {
 
     private boolean kitchen;
 
+    public Apartment() {
+
+    }
+
+    /**
+     * Copy Constructor
+     */
+    public Apartment(Estate estate) {
+        id = estate.id;
+        city = estate.city;
+        zip = estate.zip;
+        street = estate.street;
+        number = estate.number;
+        area = estate.area;
+        agent = estate.agent;
+    }
+
     public int getFloor() {
         return floor;
     }
@@ -70,7 +87,7 @@ public class Apartment extends Estate {
             ResultSet result = statement.executeQuery();
 
             if (result.next()) {
-                Apartment apartment = (Apartment) Estate.load(result.getInt("id"));
+                Apartment apartment = new Apartment(Estate.load(result.getInt("id")));
                 apartment.setBalcony(result.getBoolean("balcony"));
                 apartment.setFloor(result.getInt("floor"));
                 apartment.setKitchen(result.getBoolean("kitchen"));
@@ -92,6 +109,7 @@ public class Apartment extends Estate {
 
         try {
             if (getId() == -1) {
+                super.save();
                 PreparedStatement statement = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 
                 statement.setInt(1, getId());
@@ -104,6 +122,7 @@ public class Apartment extends Estate {
                 statement.executeUpdate();
                 statement.close();
             } else {
+                super.save();
                 PreparedStatement statement = con.prepareStatement(updateSQL);
 
                 statement.setInt(1, getFloor());

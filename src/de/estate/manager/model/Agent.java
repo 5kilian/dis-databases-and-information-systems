@@ -21,6 +21,14 @@ public class Agent {
 
     private String password;
 
+    public Agent() {
+
+    }
+
+    public Agent(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
@@ -120,5 +128,10 @@ public class Agent {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(getId());
     }
 }
