@@ -17,6 +17,19 @@ public class Purchase extends Contract{
 
     private int rate;
 
+    public Purchase() {
+
+    }
+
+    public Purchase(Contract contract) {
+
+        id = contract.id;
+        date = contract.date;
+        place = contract.place;
+
+    }
+
+
     public int getInstallments() {
         return installments;
     }
@@ -47,7 +60,7 @@ public class Purchase extends Contract{
                 ts.setInstallments(result.getInt("installments"));
                 ts.setRate(result.getInt("rate"));
 
-                ts.setDate(result.getDate("date"));
+                ts.setDate(result.getString("date"));
                 ts.setPlace(result.getString("place"));
 
 

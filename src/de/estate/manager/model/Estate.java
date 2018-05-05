@@ -138,7 +138,6 @@ public class Estate {
                 statement.setInt(5, getArea());
                 statement.setInt(6, getAgent().getId());
                 statement.setInt(7, getId());
-
                 statement.executeUpdate();
 
                 statement.close();

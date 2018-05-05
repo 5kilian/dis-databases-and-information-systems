@@ -15,17 +15,17 @@ public class Tenancy extends Contract {
             " COST = ?, DATE = ?, PLACE = ? WHERE id = ?";
 
 
-    private Date start;
+    private String start;
 
     private int duration;
 
     private double cost;
 
-    public Date getStart() {
+    public String getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(String start) {
         this.start = start;
     }
 
@@ -46,6 +46,19 @@ public class Tenancy extends Contract {
     }
 
 
+    public Tenancy() {
+
+    }
+
+
+    public Tenancy(Contract contract) {
+
+        id = contract.id;
+        date = contract.date;
+        place = contract.place;
+
+    }
+
 
     public static Tenancy load(int id) {
         try {
@@ -57,11 +70,11 @@ public class Tenancy extends Contract {
                 Tenancy ts = new Tenancy();
                 ts.setId(id);
 
-                ts.setStart(result.getDate("start"));
+                ts.setStart(result.getString("start"));
                 // ts.setDuration(result.getBoolean("balcony"));
                 // ts.setCost(result.getBoolean("cost"));
 
-                ts.setDate(result.getDate("date"));
+                ts.setDate(result.getString("date"));
                 ts.setPlace(result.getString("place"));
 
 

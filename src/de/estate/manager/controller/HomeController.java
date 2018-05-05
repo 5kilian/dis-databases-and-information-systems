@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HomeController {
+public class  HomeController {
 
     @FXML
     public VBox agentButton;
@@ -41,6 +41,12 @@ public class HomeController {
     }
 
     public void openContractManager(MouseEvent actionEvent) {
-
+        try {
+            Stage stage = (Stage) agentButton.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("../../resources/view/contract-list.fxml"));
+            stage.setScene(new Scene(root, 800, 600));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
