@@ -7,10 +7,8 @@ import java.sql.*;
 public class Rent {
 
     private static final String createSQL = "SELECT * FROM RENT WHERE ID = ?";
-    private static final String insertSQL = "INSERT INTO RENTS (APARTMENT, TENANCY, PERSON)" +
-            " VALUES ( ?, ?, ?)";
-    private static final String updateSQL = "UPDATE RENTS APARTMENT = ?, TENANCY = ?," +
-            " PERSON = ?  WHERE id = ?";
+    private static final String insertSQL = "INSERT INTO RENTS (APARTMENT, TENANCY, PERSON) VALUES ( ?, ?, ?)";
+    private static final String updateSQL = "UPDATE RENTS SET APARTMENT = ?, TENANCY = ?, PERSON = ? WHERE ID = ?";
 
     private int id = -1;
 
@@ -64,8 +62,8 @@ public class Rent {
                 ts.setId(id);
 
                 ts.setPerson(Person.load(result.getInt("person")));
-                ts.setApartment(Apartment.load().load(result.getInt("apartment")));
-                ts.setTenancy(Tenancy.load().load(result.getInt("tenancy")));
+                ts.setApartment(Apartment.load(result.getInt("apartment")));
+                ts.setTenancy(Tenancy.load(result.getInt("tenancy")));
 
 
                 result.close();
@@ -83,15 +81,11 @@ public class Rent {
 
         try {
             if (getId() == -1) {
-
                 PreparedStatement statement = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 
                 statement.setInt(1, getApartment().getId());
                 statement.setInt(2,getTenancy().getId());
                 statement.setInt(3,getPerson().getId());
-
-
-
 
                 statement.executeUpdate();
 
@@ -102,7 +96,6 @@ public class Rent {
 
                 result.close();
                 statement.close();
-
             } else {
                 PreparedStatement statement = con.prepareStatement(updateSQL);
 

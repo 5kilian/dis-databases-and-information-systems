@@ -236,7 +236,7 @@ public class ContractListController {
                         Tenancy tenancy = new Tenancy(contract);
                         tenancy.setStart(startDateField.getText());
                         tenancy.setDuration(Integer.valueOf(durationField.getText()));
-                        tenancy.setCost(Integer.valueOf(additionalCostField.getText()));
+                        tenancy.setCost(Double.valueOf(additionalCostField.getText()));
 
                         ObservableList<Estate> apartmentList = FXCollections.observableArrayList(estateService.getApartments());
                         choiceBox.setItems(apartmentList);

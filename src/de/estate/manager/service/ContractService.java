@@ -53,7 +53,7 @@ public class ContractService {
                 contract.setPlace(tenancies.getString("place"));
 
 
-                contract.setCost(tenancies.getInt("cost"));
+                contract.setCost(tenancies.getDouble("cost"));
                 contract.setDuration(tenancies.getInt("duration"));
                 contract.setStart(tenancies.getString("start"));
 
