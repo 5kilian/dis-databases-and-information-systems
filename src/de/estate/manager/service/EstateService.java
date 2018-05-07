@@ -78,6 +78,83 @@ public class EstateService {
         return estates;
     }
 
+    public List<Estate> getHouses(){
+        List<Estate> houses = new ArrayList<>();
+
+        try {
+            ResultSet housesSet = DB2Connection.getConnection().prepareStatement("SELECT * FROM ESTATES e, HOUSES h WHERE e.ID = h.ID").executeQuery();
+
+            while (housesSet.next()) {
+                House estate = new House();
+                estate.setId(housesSet.getInt("id"));
+                estate.setStreet(housesSet.getString("street"));
+                estate.setArea(housesSet.getInt("area"));
+                estate.setCity(housesSet.getString("city"));
+                estate.setNumber(housesSet.getInt("number"));
+                estate.setZip(housesSet.getInt("zip"));
+                estate.setAgent(new Agent(housesSet.getInt("agent")));
+                estate.setGarden(housesSet.getBoolean("garden"));
+                estate.setPrice(housesSet.getDouble("price"));
+                estate.setFloors(housesSet.getInt("floors"));
+                houses.add(estate);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        houses.sort(Comparator.comparingInt(Estate::getId));
+        return houses;
+    }
+
+
+
+
+    public List<Estate> getApartments(){
+        List<Estate> apartments = new ArrayList<>();
+
+        try {
+            ResultSet estatess = DB2Connection.getConnection().prepareStatement("SELECT * FROM ESTATES e WHERE e.ID NOT IN (" +
+                    "SELECT e.ID FROM ESTATES e, APARTMENTS a WHERE e.ID = a.ID" +
+                    ")").executeQuery();
+            ResultSet apartmentss = DB2Connection.getConnection().prepareStatement("SELECT * FROM ESTATES e, APARTMENTS a WHERE e.ID = a.ID").executeQuery();
+
+            while (estatess.next()) {
+                Estate estate = new Estate();
+                estate.setId(estatess.getInt("id"));
+                estate.setStreet(estatess.getString("street"));
+                estate.setArea(estatess.getInt("area"));
+                estate.setCity(estatess.getString("city"));
+                estate.setNumber(estatess.getInt("number"));
+                estate.setZip(estatess.getInt("zip"));
+                estate.setAgent(new Agent(estatess.getInt("agent")));
+                apartments.add(estate);
+            }
+
+            while (apartmentss.next()) {
+                Apartment estate = new Apartment();
+                estate.setId(apartmentss.getInt("id"));
+                estate.setStreet(apartmentss.getString("street"));
+                estate.setArea(apartmentss.getInt("area"));
+                estate.setCity(apartmentss.getString("city"));
+                estate.setNumber(apartmentss.getInt("number"));
+                estate.setZip(apartmentss.getInt("zip"));
+                estate.setAgent(new Agent(apartmentss.getInt("agent")));
+                estate.setRooms(apartmentss.getDouble("rooms"));
+                estate.setKitchen(apartmentss.getBoolean("kitchen"));
+                estate.setRent(apartmentss.getDouble("rent"));
+                estate.setFloor(apartmentss.getInt("floor"));
+                estate.setBalcony(apartmentss.getBoolean("balcony"));
+                apartments.add(estate);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        apartments.sort(Comparator.comparingInt(Estate::getId));
+        return apartments;
+    }
+
     public void delete(Estate estate) {
         delete(estate.getId());
     }

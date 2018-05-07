@@ -63,9 +63,9 @@ public class Rent {
                 Rent ts = new Rent();
                 ts.setId(id);
 
-                // ts.setPerson(result.setPerson("person")); //?
-                // ts.setApartment(result.setApartment("apartment")); //?
-                // ts.setTenancy(result.setTenancy("tenancy"));
+                ts.setPerson(Person.load(result.getInt("person")));
+                ts.setApartment(Apartment.load().load(result.getInt("apartment")));
+                ts.setTenancy(Tenancy.load().load(result.getInt("tenancy")));
 
 
                 result.close();
@@ -83,11 +83,15 @@ public class Rent {
 
         try {
             if (getId() == -1) {
+
                 PreparedStatement statement = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 
-                // statement.setApartment(1, getApartment());
-                // statement.setTenancy(2,getTenancy());
-                // statement.setPerson(3, getPerson()); //?
+                statement.setInt(1, getApartment().getId());
+                statement.setInt(2,getTenancy().getId());
+                statement.setInt(3,getPerson().getId());
+
+
+
 
                 statement.executeUpdate();
 
@@ -98,13 +102,13 @@ public class Rent {
 
                 result.close();
                 statement.close();
+
             } else {
                 PreparedStatement statement = con.prepareStatement(updateSQL);
 
-                // statement.setApartment(1, getApartment());
-                // statement.setTenancy(2,getTenancy());
-                // statement.setPerson(3, getPerson()); //?
-
+                statement.setInt(1, getApartment().getId());
+                statement.setInt(2,getTenancy().getId());
+                statement.setInt(3,getPerson().getId());
                 statement.setInt(4, getId());
                 statement.executeUpdate();
 

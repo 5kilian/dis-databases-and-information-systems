@@ -9,23 +9,29 @@ public class Purchase extends Contract{
 
     private static final String createSQL = "SELECT * FROM PURCHASE WHERE ID = ?";
     private static final String insertSQL = "INSERT INTO PURCHASES (INSTALLMENTS, RATE," +
-            " DATE, PLACE) VALUES ( ?, ?, ?, ? )";
+            " DATE, PLACE, SELL) VALUES ( ?, ?, ?, ?, ?)";
     private static final String updateSQL = "UPDATE PURCHASES SET INSTALLMENTS = ?, RATE = ?," +
-            " DATE = ?, PLACE = ? WHERE id = ?";
+            " DATE = ?, PLACE = ?, SELL = ? WHERE id = ?";
 
     private int installments;
 
     private int rate;
 
+    private Sell sell;
+
     public Purchase() {
 
     }
 
+    /**
+     * Copy Constructor
+     */
     public Purchase(Contract contract) {
 
         id = contract.id;
         date = contract.date;
         place = contract.place;
+
 
     }
 
@@ -46,6 +52,14 @@ public class Purchase extends Contract{
         this.rate = rate;
     }
 
+    public Sell getSell() {
+        return sell;
+    }
+
+    public void setSell(Sell sell) {
+        this.sell = sell;
+    }
+
 
     public static Purchase load(int id) {
         try {
@@ -54,11 +68,12 @@ public class Purchase extends Contract{
             ResultSet result = statement.executeQuery();
 
             if (result.next()) {
-                Purchase ts = new Purchase();
+                Purchase ts = new Purchase(Contract.load(id));
                 ts.setId(id);
 
                 ts.setInstallments(result.getInt("installments"));
                 ts.setRate(result.getInt("rate"));
+                ts.setSell(Sell.load(result.getInt("sell")));
 
                 ts.setDate(result.getString("date"));
                 ts.setPlace(result.getString("place"));
@@ -79,14 +94,14 @@ public class Purchase extends Contract{
 
         try {
             if (getId() == -1) {
+                super.save();
                 PreparedStatement statement = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 
                 statement.setInt(1, getInstallments());
                 statement.setInt(2, getRate());
-
-                // statement.setDate(3, getDate());
+                 statement.setString(3, getDate());
                 statement.setString(4, getPlace());
-
+                statement.setInt(5, getSell().getId());
 
                 statement.executeUpdate();
 
@@ -98,15 +113,16 @@ public class Purchase extends Contract{
                 result.close();
                 statement.close();
             } else {
+                super.save();
                 PreparedStatement statement = con.prepareStatement(updateSQL);
 
-                // statement.setDate(1, getInstallments());
+                statement.setInt(1, getInstallments());
                 statement.setInt(2, getRate());
 
-                // statement.setDate(3, getDate());
+                statement.setString(3, getDate());
                 statement.setString(4, getPlace());
-
-                statement.setInt(5, getId());
+                statement.setInt(5, getSell().getId());
+                statement.setInt(6, getId());
                 statement.executeUpdate();
 
                 statement.close();

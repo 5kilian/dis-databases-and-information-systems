@@ -2,6 +2,7 @@ package de.estate.manager.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -26,7 +27,14 @@ public class ContractController {
     public TextField durationField;
     @FXML
     public TextField additionalCostField;
-
+    @FXML
+    public TextField firstNameField;
+    @FXML
+    public TextField nameField;
+    @FXML
+    public TextField addressField;
+    @FXML
+    public ChoiceBox choiceBox;
 
 
     public void validateData(KeyEvent keyEvent) {

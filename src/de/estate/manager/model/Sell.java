@@ -62,9 +62,10 @@ public class Sell {
                 Sell ts = new Sell();
                 ts.setId(id);
 
-                // ts.setPerson(result.getPerson("person")); //?
-                // s.setHouse(result.getHouse("house")); //?
-                // ts.setPurchase(result.getPurchase("purchase"));
+                 ts.setPerson(Person.load(result.getInt("person")));
+                 ts.setHouse(House.load(result.getInt("house")));
+                 ts.setPurchase(Purchase.load(result.getInt("purchase")));
+
 
 
                 result.close();
@@ -84,9 +85,9 @@ public class Sell {
             if (getId() == -1) {
                 PreparedStatement statement = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 
-                // statement.setPerson(1, getPerson()); //?
-                // statement.setHouse(2, getHouse());
-                // statement.setPurchase(3, getPurchase());
+                statement.setInt(1,getPerson().getId());
+                statement.setInt(2,getHouse().getId());
+                statement.setInt(3,getPurchase().getId());
 
                 statement.executeUpdate();
 
@@ -100,9 +101,9 @@ public class Sell {
             } else {
                 PreparedStatement statement = con.prepareStatement(updateSQL);
 
-                // statement.setPerson(1, getPerson()); //?
-                // statement.setHouse(2, getHouse());
-                // statement.setPurchase(3, getPurchase());
+                statement.setInt(1,getPerson().getId());
+                statement.setInt(2,getHouse().getId());
+                statement.setInt(3,getPurchase().getId());
 
                 statement.setInt(4, getId());
                 statement.executeUpdate();

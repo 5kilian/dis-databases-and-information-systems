@@ -10,9 +10,9 @@ public class Tenancy extends Contract {
 
     private static final String createSQL = "SELECT * FROM TENANCY WHERE ID = ?";
     private static final String insertSQL = "INSERT INTO TENANCIES (START, DURATION, COST," +
-            " DATE, PLACE) VALUES ( ?, ?, ?, ?, ?)";
+            " DATE, PLACE, RENT) VALUES ( ?, ?, ?, ?, ?)";
     private static final String updateSQL = "UPDATE TENANCIES SET START = ?, DURATION = ?," +
-            " COST = ?, DATE = ?, PLACE = ? WHERE id = ?";
+            " COST = ?, DATE = ?, PLACE = ?, RENT = ? WHERE id = ?";
 
 
     private String start;
@@ -20,6 +20,8 @@ public class Tenancy extends Contract {
     private int duration;
 
     private double cost;
+
+    private Rent rent;
 
     public String getStart() {
         return start;
@@ -41,8 +43,16 @@ public class Tenancy extends Contract {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(Double cost) {
         this.cost = cost;
+    }
+
+    public Rent getRent() {
+        return rent;
+    }
+
+    public void setRent(Rent rent) {
+        this.rent = rent;
     }
 
 
@@ -51,6 +61,9 @@ public class Tenancy extends Contract {
     }
 
 
+    /**
+     * Copy Constructor
+     */
     public Tenancy(Contract contract) {
 
         id = contract.id;
@@ -67,12 +80,12 @@ public class Tenancy extends Contract {
             ResultSet result = statement.executeQuery();
 
             if (result.next()) {
-                Tenancy ts = new Tenancy();
-                ts.setId(id);
+                Tenancy ts = new Tenancy(Contract.load(id));
 
                 ts.setStart(result.getString("start"));
-                // ts.setDuration(result.getBoolean("balcony"));
-                // ts.setCost(result.getBoolean("cost"));
+                ts.setDuration(result.getInt("duration"));
+                ts.setCost(result.getDouble("cost"));
+                ts.setRent(Rent.load(result.getInt("rent")));
 
                 ts.setDate(result.getString("date"));
                 ts.setPlace(result.getString("place"));
@@ -93,15 +106,16 @@ public class Tenancy extends Contract {
 
         try {
             if (getId() == -1) {
+                super.save();
                 PreparedStatement statement = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 
-                // statement.setDate(1, getStart());
+                statement.setString(1, getStart());
                 statement.setInt(2, getDuration());
                 statement.setDouble(3, getCost());
 
-                // statement.setDate(4, getDate());
+                statement.setString(4, getDate());
                 statement.setString(5, getPlace());
-
+                statement.setInt(6, getRent().getId());
 
                 statement.executeUpdate();
 
@@ -113,16 +127,18 @@ public class Tenancy extends Contract {
                 result.close();
                 statement.close();
             } else {
+                super.save();
                 PreparedStatement statement = con.prepareStatement(updateSQL);
 
-                // statement.setDate(1, getStart());
+                statement.setString(1, getStart());
                 statement.setInt(2, getDuration());
                 statement.setDouble(3, getCost());
 
-                // statement.setDate(4, getDate());
+                statement.setString(4, getDate());
                 statement.setString(5, getPlace());
+                statement.setInt(6,getRent().getId());
 
-                statement.setInt(6, getId());
+                statement.setInt(7, getId());
                 statement.executeUpdate();
 
                 statement.close();
