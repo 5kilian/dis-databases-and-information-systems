@@ -60,7 +60,7 @@
           <Insets top="5.0" />
         </VBox.margin>
       </TextField>
-
+      <Label fx:id="errorLabel" />
     </VBox>
   </content>
   <buttonTypes>

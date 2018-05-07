@@ -4,10 +4,10 @@ import de.estate.manager.model.Agent;
 import de.estate.manager.model.Apartment;
 import de.estate.manager.model.Estate;
 import de.estate.manager.model.House;
+import de.estate.manager.service.AgentService;
 import de.estate.manager.service.EstateService;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,9 +26,10 @@ import java.util.Optional;
 public class EstateListController {
 
     private EstateService estateService;
-
+    private AgentService agentService;
     @FXML
     public TableColumn typeColumn;
+
     @FXML
     public TableColumn editColumn;
     @FXML
@@ -36,8 +37,11 @@ public class EstateListController {
     @FXML
     public Label infoLabel;
 
+    private boolean loggedIn = false;
+
     public EstateListController() {
         estateService = new EstateService();
+        agentService = new AgentService();
     }
 
     @FXML
@@ -181,75 +185,118 @@ public class EstateListController {
     }
 
     public void addEstate(MouseEvent mouseEvent) {
+        if (!loggedIn) {
+            login(mouseEvent);
+        } else {
+            try {
+                Dialog<Estate> dialog = new Dialog<>();
+                dialog.setDialogPane(FXMLLoader.load(getClass().getResource("../../resources/view/estate-dialog.fxml")));
+                dialog.setTitle("Add new estate");
+                dialog.getDialogPane().setHeaderText("Add new estate");
+                dialog.getDialogPane().lookupButton(
+                        dialog.getDialogPane().getButtonTypes().filtered(buttonType -> buttonType.getText().equals("Save")).get(0)
+                ).setDisable(true);
+                dialog.setResultConverter(buttonType -> {
+                    if (buttonType.getText().equals("Add")) {
+                        DialogPane pane = dialog.getDialogPane();
+
+                        TextField streetField = (TextField) pane.lookup("#streetField");
+                        TextField numberField = (TextField) pane.lookup("#numberField");
+                        TextField cityField = (TextField) pane.lookup("#cityField");
+                        TextField areaField = (TextField) pane.lookup("#areaField");
+                        TextField zipField = (TextField) pane.lookup("#zipField");
+
+                        Estate estate = new Estate();
+                        estate.setStreet(streetField.getText());
+                        estate.setNumber(Integer.valueOf(numberField.getText()));
+                        estate.setCity(cityField.getText());
+                        estate.setArea(Integer.valueOf(areaField.getText()));
+                        estate.setZip(Integer.valueOf(zipField.getText()));
+                        estate.setAgent(Agent.load(1));
+
+                        TabPane typePane = (TabPane) pane.lookup("#typePane");
+
+                        Tab selectedItem = typePane.getSelectionModel().getSelectedItem();
+                        switch (selectedItem.getText()) {
+                            case "Apartment":
+                                TextField floorField = (TextField) pane.lookup("#floorField");
+                                TextField rentField = (TextField) pane.lookup("#rentField");
+                                TextField roomsField = (TextField) pane.lookup("#roomsField");
+                                CheckBox kitchenField = (CheckBox) pane.lookup("#kitchenField");
+
+                                Apartment apartment = new Apartment(estate);
+                                apartment.setFloor(Integer.valueOf(floorField.getText()));
+                                apartment.setRent(Double.valueOf(rentField.getText()));
+                                apartment.setRooms(Double.valueOf(roomsField.getText()));
+                                apartment.setKitchen(kitchenField.isSelected());
+
+                                return apartment;
+                            case "House":
+                                TextField floorsField = (TextField) pane.lookup("#floorsField");
+                                TextField priceField = (TextField) pane.lookup("#priceField");
+                                CheckBox gardenField = (CheckBox) pane.lookup("#gardenField");
+
+                                House house = new House(estate);
+                                house.setFloors(Integer.valueOf(floorsField.getText()));
+                                house.setPrice(Integer.valueOf(priceField.getText()));
+                                house.setGarden(gardenField.isSelected());
+                                return house;
+                            default:
+                                return estate;
+                        }
+                    }
+                    return null;
+                });
+                Optional<Estate> result = dialog.showAndWait();
+                result.ifPresent(estate -> {
+                    tableView.getItems().add(estate);
+                    if (estate instanceof House) {
+                        House house = (House) estate;
+                        house.save();
+                    } else if (estate instanceof Apartment) {
+                        Apartment apartment = (Apartment) estate;
+                        apartment.save();
+                    } else {
+                        estate.save();
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void login(MouseEvent mouseEvent) {
         try {
-            Dialog<Estate> dialog = new Dialog<>();
-            dialog.setDialogPane(FXMLLoader.load(getClass().getResource("../../resources/view/estate-dialog.fxml")));
-            dialog.setTitle("Add new estate");
-            dialog.getDialogPane().setHeaderText("Add new estate");
-            dialog.getDialogPane().lookupButton(
-                    dialog.getDialogPane().getButtonTypes().filtered(buttonType -> buttonType.getText().equals("Save")).get(0)
-            ).setDisable(true);
-            dialog.setResultConverter(buttonType -> {
+            Dialog<Agent> dialog = new Dialog<>();
+            dialog.setDialogPane(FXMLLoader.load(getClass().getResource("../../resources/view/login-dialog.fxml")));
+            dialog.setTitle("Sign in");
+            dialog.getDialogPane().setHeaderText("Sign in");
+            Button button = (Button) dialog.getDialogPane().lookupButton(
+                    dialog.getDialogPane().getButtonTypes().filtered(buttonType -> buttonType.getText().equals("Sign in")).get(0)
+            );
+            button.addEventFilter(ActionEvent.ACTION, event -> {
                 DialogPane pane = dialog.getDialogPane();
 
-                TextField streetField = (TextField) pane.lookup("#streetField");
-                TextField numberField = (TextField) pane.lookup("#numberField");
-                TextField cityField = (TextField) pane.lookup("#cityField");
-                TextField areaField = (TextField) pane.lookup("#areaField");
-                TextField zipField = (TextField) pane.lookup("#zipField");
+                TextField loginField = (TextField) pane.lookup("#loginField");
+                TextField passwordField = (TextField) pane.lookup("#passwordField");
 
-                Estate estate = new Estate();
-                estate.setStreet(streetField.getText());
-                estate.setNumber(Integer.valueOf(numberField.getText()));
-                estate.setCity(cityField.getText());
-                estate.setArea(Integer.valueOf(areaField.getText()));
-                estate.setZip(Integer.valueOf(zipField.getText()));
-                estate.setAgent(Agent.load(1));
-
-                TabPane typePane = (TabPane) pane.lookup("#typePane");
-
-                Tab selectedItem = typePane.getSelectionModel().getSelectedItem();
-                switch (selectedItem.getText()) {
-                    case "Apartment":
-                        TextField floorField = (TextField) pane.lookup("#floorField");
-                        TextField rentField = (TextField) pane.lookup("#rentField");
-                        TextField roomsField = (TextField) pane.lookup("#roomsField");
-                        CheckBox kitchenField = (CheckBox) pane.lookup("#kitchenField");
-
-                        Apartment apartment = new Apartment(estate);
-                        apartment.setFloor(Integer.valueOf(floorField.getText()));
-                        apartment.setRent(Double.valueOf(rentField.getText()));
-                        apartment.setRooms(Double.valueOf(roomsField.getText()));
-                        apartment.setKitchen(kitchenField.isSelected());
-
-                        return apartment;
-                    case "House":
-                        TextField floorsField = (TextField) pane.lookup("#floorsField");
-                        TextField priceField = (TextField) pane.lookup("#priceField");
-                        CheckBox gardenField = (CheckBox) pane.lookup("#gardenField");
-
-                        House house = new House(estate);
-                        house.setFloors(Integer.valueOf(floorsField.getText()));
-                        house.setPrice(Integer.valueOf(priceField.getText()));
-                        house.setGarden(gardenField.isSelected());
-                        return house;
-                    default:
-                        return estate;
+                Agent agent = agentService.validate(loginField.getText(), passwordField.getText());
+                if (agent == null) {
+                    Label errorLabel = (Label) pane.lookup("#errorLabel");
+                    errorLabel.setText("Invalid input");
+                    event.consume();
                 }
             });
-            Optional<Estate> result = dialog.showAndWait();
-            result.ifPresent(estate -> {
-                tableView.getItems().add(estate);
-                if (estate instanceof House) {
-                    House house = (House) estate;
-                    house.save();
-                } else if (estate instanceof Apartment) {
-                    Apartment apartment = (Apartment) estate;
-                    apartment.save();
-                } else {
-                    estate.save();
+            dialog.setResultConverter(buttonType -> {
+                if (buttonType.getText().equals("Sign in")) {
+                    loggedIn = true;
+                    addEstate(mouseEvent);
                 }
+                return null;
             });
+
+            dialog.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

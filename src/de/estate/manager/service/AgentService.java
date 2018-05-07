@@ -51,4 +51,25 @@ public class AgentService {
         }
     }
 
+    public Agent validate(String name, String password) {
+        try {
+            PreparedStatement statement = DB2Connection.getConnection().prepareStatement("SELECT * FROM AGENTS WHERE LOGIN = ? AND PASSWORD = ?");
+            statement.setString(1, name);
+            statement.setString(2, password);
+            ResultSet result = statement.executeQuery();
+
+            if (result.next()) {
+                Agent agent = new Agent();
+                agent.setId(result.getInt("id"));
+                agent.setName(result.getString("name"));
+                agent.setLogin(result.getString("login"));
+                agent.setPassword(result.getString("password"));
+                agent.setAddress(result.getString("address"));
+                return agent;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
