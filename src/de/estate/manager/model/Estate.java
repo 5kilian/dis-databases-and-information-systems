@@ -146,4 +146,9 @@ public class Estate {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + "\n" + street + " " + number + "\n" + zip + " " + city + " " + area + "\n";
+    }
 }

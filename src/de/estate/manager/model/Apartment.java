@@ -139,4 +139,9 @@ public class Apartment extends Estate {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "floor: " + floor + " rent: " + rent + (balcony? " +balcony" : "") + (kitchen? " +kitchen" : "");
+    }
 }

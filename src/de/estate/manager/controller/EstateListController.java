@@ -6,6 +6,8 @@ import de.estate.manager.model.Estate;
 import de.estate.manager.model.House;
 import de.estate.manager.service.EstateService;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,6 +33,8 @@ public class EstateListController {
     public TableColumn editColumn;
     @FXML
     public TableView tableView;
+    @FXML
+    public Label infoLabel;
 
     public EstateListController() {
         estateService = new EstateService();
@@ -157,6 +161,14 @@ public class EstateListController {
 
         try {
             tableView.getItems().addAll(estateService.getAll());
+
+            tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    infoLabel.setText(newValue.toString());
+                } else {
+                    infoLabel.setText("");
+                }
+            });
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Connection failed");

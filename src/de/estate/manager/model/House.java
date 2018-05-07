@@ -112,4 +112,9 @@ public class House extends Estate {
         }
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + "floors: " + floors + " price: " + price + (garden? " +garden" : "");
+    }
+
 }
