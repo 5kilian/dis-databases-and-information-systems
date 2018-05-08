@@ -129,17 +129,26 @@ public class EstateListController {
                                 typePane.getSelectionModel().select(0);
                             }
 
+                            dialog.setResultConverter(buttonType -> {
+                                if (buttonType.getText().equals("Save")) {
+                                    Estate estate1 = saveEstate(dialog.getDialogPane());
+                                    estate1.setId(estate.getId());
+                                    return estate1;
+                                }
+                                return null;
+                            });
+
                             Optional<Estate> result = dialog.showAndWait();
                             result.ifPresent(res -> {
                                 tableView.refresh();
-                                if (estate instanceof House) {
-                                    House house = (House) estate;
+                                if (res instanceof House) {
+                                    House house = (House) res;
                                     house.save();
-                                } else if (estate instanceof Apartment) {
-                                    Apartment apartment = (Apartment) estate;
+                                } else if (res instanceof Apartment) {
+                                    Apartment apartment = (Apartment) res;
                                     apartment.save();
                                 } else {
-                                    estate.save();
+                                    res.save();
                                 }
                             });
                         } catch (IOException e) {
@@ -197,53 +206,8 @@ public class EstateListController {
                         dialog.getDialogPane().getButtonTypes().filtered(buttonType -> buttonType.getText().equals("Save")).get(0)
                 ).setDisable(true);
                 dialog.setResultConverter(buttonType -> {
-                    if (buttonType.getText().equals("Add")) {
-                        DialogPane pane = dialog.getDialogPane();
-
-                        TextField streetField = (TextField) pane.lookup("#streetField");
-                        TextField numberField = (TextField) pane.lookup("#numberField");
-                        TextField cityField = (TextField) pane.lookup("#cityField");
-                        TextField areaField = (TextField) pane.lookup("#areaField");
-                        TextField zipField = (TextField) pane.lookup("#zipField");
-
-                        Estate estate = new Estate();
-                        estate.setStreet(streetField.getText());
-                        estate.setNumber(Integer.valueOf(numberField.getText()));
-                        estate.setCity(cityField.getText());
-                        estate.setArea(Integer.valueOf(areaField.getText()));
-                        estate.setZip(Integer.valueOf(zipField.getText()));
-                        estate.setAgent(Agent.load(1));
-
-                        TabPane typePane = (TabPane) pane.lookup("#typePane");
-
-                        Tab selectedItem = typePane.getSelectionModel().getSelectedItem();
-                        switch (selectedItem.getText()) {
-                            case "Apartment":
-                                TextField floorField = (TextField) pane.lookup("#floorField");
-                                TextField rentField = (TextField) pane.lookup("#rentField");
-                                TextField roomsField = (TextField) pane.lookup("#roomsField");
-                                CheckBox kitchenField = (CheckBox) pane.lookup("#kitchenField");
-
-                                Apartment apartment = new Apartment(estate);
-                                apartment.setFloor(Integer.valueOf(floorField.getText()));
-                                apartment.setRent(Double.valueOf(rentField.getText()));
-                                apartment.setRooms(Double.valueOf(roomsField.getText()));
-                                apartment.setKitchen(kitchenField.isSelected());
-
-                                return apartment;
-                            case "House":
-                                TextField floorsField = (TextField) pane.lookup("#floorsField");
-                                TextField priceField = (TextField) pane.lookup("#priceField");
-                                CheckBox gardenField = (CheckBox) pane.lookup("#gardenField");
-
-                                House house = new House(estate);
-                                house.setFloors(Integer.valueOf(floorsField.getText()));
-                                house.setPrice(Integer.valueOf(priceField.getText()));
-                                house.setGarden(gardenField.isSelected());
-                                return house;
-                            default:
-                                return estate;
-                        }
+                    if (buttonType.getText().equals("Save")) {
+                        return saveEstate(dialog.getDialogPane());
                     }
                     return null;
                 });
@@ -309,6 +273,53 @@ public class EstateListController {
             stage.setScene(new Scene(root, 800, 600));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private Estate saveEstate(DialogPane pane) {
+        TextField streetField = (TextField) pane.lookup("#streetField");
+        TextField numberField = (TextField) pane.lookup("#numberField");
+        TextField cityField = (TextField) pane.lookup("#cityField");
+        TextField areaField = (TextField) pane.lookup("#areaField");
+        TextField zipField = (TextField) pane.lookup("#zipField");
+
+        Estate estate = new Estate();
+        estate.setStreet(streetField.getText());
+        estate.setNumber(Integer.valueOf(numberField.getText()));
+        estate.setCity(cityField.getText());
+        estate.setArea(Integer.valueOf(areaField.getText()));
+        estate.setZip(Integer.valueOf(zipField.getText()));
+        estate.setAgent(Agent.load(1));
+
+        TabPane typePane = (TabPane) pane.lookup("#typePane");
+
+        Tab selectedItem = typePane.getSelectionModel().getSelectedItem();
+        switch (selectedItem.getText()) {
+            case "Apartment":
+                TextField floorField = (TextField) pane.lookup("#floorField");
+                TextField rentField = (TextField) pane.lookup("#rentField");
+                TextField roomsField = (TextField) pane.lookup("#roomsField");
+                CheckBox kitchenField = (CheckBox) pane.lookup("#kitchenField");
+
+                Apartment apartment = new Apartment(estate);
+                apartment.setFloor(Integer.valueOf(floorField.getText()));
+                apartment.setRent(Double.valueOf(rentField.getText()));
+                apartment.setRooms(Double.valueOf(roomsField.getText()));
+                apartment.setKitchen(kitchenField.isSelected());
+
+                return apartment;
+            case "House":
+                TextField floorsField = (TextField) pane.lookup("#floorsField");
+                TextField priceField = (TextField) pane.lookup("#priceField");
+                CheckBox gardenField = (CheckBox) pane.lookup("#gardenField");
+
+                House house = new House(estate);
+                house.setFloors(Integer.valueOf(floorsField.getText()));
+                house.setPrice(Integer.valueOf(priceField.getText()));
+                house.setGarden(gardenField.isSelected());
+                return house;
+            default:
+                return estate;
         }
     }
 }

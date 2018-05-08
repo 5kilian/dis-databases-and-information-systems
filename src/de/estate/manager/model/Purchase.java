@@ -4,12 +4,12 @@ import de.estate.manager.util.DB2Connection;
 
 import java.sql.*;
 
-public class Purchase extends Contract{
+public class Purchase extends Contract {
 
 
     private static final String createSQL = "SELECT * FROM PURCHASES WHERE ID = ?";
     private static final String insertSQL = "INSERT INTO PURCHASES (ID, INSTALLMENTS, RATE, HOUSE) VALUES (?, ?, ?, ?)";
-    private static final String updateSQL = "UPDATE PURCHASES SET INSTALLMENTS = ?, RATE = ?, HOUSE = ? WHERE id = ?";
+    private static final String updateSQL = "UPDATE PURCHASES SET INSTALLMENTS = ?, RATE = ?, HOUSE = ? WHERE ID = ?";
 
     private int installments;
 

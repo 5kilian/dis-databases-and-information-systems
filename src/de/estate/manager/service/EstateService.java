@@ -148,7 +148,7 @@ public class EstateService {
         try {
             List<PreparedStatement> statements = new ArrayList<>();
             statements.add(DB2Connection.getConnection().prepareStatement("DELETE FROM HOUSES WHERE ID = ?"));
-            statements.add(DB2Connection.getConnection().prepareStatement("DELETE FROM RENTS WHERE ID = ?"));
+            statements.add(DB2Connection.getConnection().prepareStatement("DELETE FROM APARTMENTS WHERE ID = ?"));
             statements.add(DB2Connection.getConnection().prepareStatement("DELETE FROM ESTATES WHERE ID = ?"));
 
             for (PreparedStatement statement : statements) {

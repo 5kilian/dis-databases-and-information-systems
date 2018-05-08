@@ -165,12 +165,8 @@ public class ContractListController {
 
                                 typePane.getSelectionModel().select(1);
 
-                                ObservableList<Estate> houseList = FXCollections.observableArrayList(purchase.getHouse());
+                                ObservableList<Estate> houseList = FXCollections.observableArrayList(estateService.getHouses());
                                 choiceBox.setItems(houseList);
-
-
-
-
                             } else if (contract instanceof Tenancy) {
                                 TextField startDateField = (TextField) pane.lookup("#startDateField");
                                 TextField durationField = (TextField) pane.lookup("#durationField");
@@ -182,7 +178,7 @@ public class ContractListController {
                                 additionalCostField.setText(String.valueOf(tenancy.getCost()));
                                 typePane.getSelectionModel().select(0);
 
-                                ObservableList<Estate> apartmentList = FXCollections.observableArrayList(tenancy.getApartment());
+                                ObservableList<Estate> apartmentList = FXCollections.observableArrayList(estateService.getApartments());
                                 choiceBox.setItems(apartmentList);
                             }
 
