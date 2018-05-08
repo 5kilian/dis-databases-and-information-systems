@@ -77,17 +77,22 @@
                             <PropertyValueFactory property="Place" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="First Name">
+                    <TableColumn text="Estate" fx:id="estateColumn">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="Estate" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="First Name" fx:id="fistnameColumn">
                         <cellValueFactory>
                             <PropertyValueFactory property="First Name" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="Name">
+                    <TableColumn text="Name" fx:id="nameColumn">
                         <cellValueFactory>
                             <PropertyValueFactory property="Name" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="Address">
+                    <TableColumn text="Address" fx:id="addressColumn">
                         <cellValueFactory>
                             <PropertyValueFactory property="Address" />
                         </cellValueFactory>

@@ -18,16 +18,22 @@ public class ContractService {
         List<Contract> contracts = new ArrayList<>();
 
         try {
-            ResultSet contractss = DB2Connection.getConnection().prepareStatement("SELECT * FROM CONTRACTS c WHERE c.ID NOT IN (" +
-                    "SELECT c.ID FROM CONTRACTS c, PURCHASES p , TENANCIES t WHERE c.ID = p.ID OR c.ID = t.ID" +
+            ResultSet contractss = DB2Connection.getConnection().prepareStatement("SELECT * FROM CONTRACTS c WHERE c.ID NOT IN (\n" +
+                    "  SELECT c.ID FROM CONTRACTS c, PURCHASES s WHERE c.ID = s.ID\n" +
+                    ") AND c.ID NOT IN (\n" +
+                    "  SELECT c.ID FROM CONTRACTS c, TENANCIES t WHERE c.ID = t.ID\n" +
                     ")").executeQuery();
             ResultSet purchases = DB2Connection.getConnection().prepareStatement("SELECT * FROM CONTRACTS c, PURCHASES p WHERE c.ID = p.ID").executeQuery();
             ResultSet tenancies = DB2Connection.getConnection().prepareStatement("SELECT * FROM CONTRACTS c, TENANCIES t WHERE c.ID = t.ID").executeQuery();
+
             while (contractss.next()) {
                 Contract contract = new Contract();
                 contract.setId(contractss.getInt("id"));
                 contract.setPlace(contractss.getString("place"));
-                contract.setDate(contractss.getString("date"));
+                contract.setDate(contractss.getDate("date"));
+                if (contractss.getInt("person") > 0) {
+                    contract.setPerson(Person.load(contractss.getInt("person")));
+                }
 
                 contracts.add(contract);
             }
@@ -35,12 +41,16 @@ public class ContractService {
             while (purchases.next()) {
                 Purchase contract = new Purchase();
                 contract.setId(purchases.getInt("id"));
-                contract.setDate(purchases.getString("date"));
+                contract.setDate(purchases.getDate("date"));
                 contract.setPlace(purchases.getString("place"));
 
                 contract.setRate(purchases.getInt("rate"));
                 contract.setInstallments(purchases.getInt("installments"));
+                contract.setHouse(House.load(purchases.getInt("house")));
 
+                if (purchases.getInt("person") > 0) {
+                    contract.setPerson(Person.load(purchases.getInt("person")));
+                }
 
                 contracts.add(contract);
             }
@@ -49,13 +59,18 @@ public class ContractService {
                 Tenancy contract = new Tenancy();
 
                 contract.setId(tenancies.getInt("id"));
-                contract.setDate(tenancies.getString("date"));
+                contract.setDate(tenancies.getDate("date"));
                 contract.setPlace(tenancies.getString("place"));
 
 
                 contract.setCost(tenancies.getDouble("cost"));
                 contract.setDuration(tenancies.getInt("duration"));
-                contract.setStart(tenancies.getString("start"));
+                contract.setStart(tenancies.getDate("start"));
+                contract.setApartment(Apartment.load(tenancies.getInt("apartment")));
+
+                if (tenancies.getInt("person") > 0) {
+                    contract.setPerson(Person.load(tenancies.getInt("person")));
+                }
 
                 contracts.add(contract);
             }

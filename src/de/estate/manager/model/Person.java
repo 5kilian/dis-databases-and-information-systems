@@ -6,9 +6,9 @@ import java.sql.*;
 
 public class Person {
 
-    private static final String createSQL = "SELECT * FROM PERSON WHERE ID = ?";
-    private static final String insertSQL = "INSERT INTO PERSONS (FIRSTNAME, NAME, ADRESS) VALUES  (?, ?, ?)";
-    private static final String updateSQL = "UPDATE PERSONS SET FIRSTNAME = ?, NAME = ?, ADDRESS = ? WHERE id = ?";
+    private static final String createSQL = "SELECT * FROM PERSONS WHERE ID = ?";
+    private static final String insertSQL = "INSERT INTO PERSONS (FIRSTNAME, NAME, ADDRESS) VALUES  (?, ?, ?)";
+    private static final String updateSQL = "UPDATE PERSONS SET FIRSTNAME = ?, NAME = ?, ADDRESS = ? WHERE ID = ?";
 
     private int id = -1;
 

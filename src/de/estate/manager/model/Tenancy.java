@@ -3,31 +3,28 @@ package de.estate.manager.model;
 import de.estate.manager.util.DB2Connection;
 
 import java.sql.*;
-import java.util.Date;
 
 
 public class Tenancy extends Contract {
 
-    private static final String createSQL = "SELECT * FROM TENANCY WHERE ID = ?";
-    private static final String insertSQL = "INSERT INTO TENANCIES (START, DURATION, COST," +
-            " DATE, PLACE, RENT) VALUES ( ?, ?, ?, ?, ?)";
-    private static final String updateSQL = "UPDATE TENANCIES SET START = ?, DURATION = ?," +
-            " COST = ?, DATE = ?, PLACE = ?, RENT = ? WHERE id = ?";
+    private static final String createSQL = "SELECT * FROM TENANCIES WHERE ID = ?";
+    private static final String insertSQL = "INSERT INTO TENANCIES (ID, START, DURATION, COST, APARTMENT) VALUES (?, ?, ?, ?, ?)";
+    private static final String updateSQL = "UPDATE TENANCIES SET START = ?, DURATION = ?, COST = ?, APARTMENT = ? WHERE ID = ?";
 
 
-    private String start;
+    private Date start;
 
     private int duration;
 
     private double cost;
 
-    private Rent rent;
+    private Apartment apartment;
 
-    public String getStart() {
+    public Date getStart() {
         return start;
     }
 
-    public void setStart(String start) {
+    public void setStart(Date start) {
         this.start = start;
     }
 
@@ -47,12 +44,12 @@ public class Tenancy extends Contract {
         this.cost = cost;
     }
 
-    public Rent getRent() {
-        return rent;
+    public Apartment getApartment() {
+        return apartment;
     }
 
-    public void setRent(Rent rent) {
-        this.rent = rent;
+    public void setApartment(Apartment apartment) {
+        this.apartment = apartment;
     }
 
 
@@ -82,14 +79,10 @@ public class Tenancy extends Contract {
             if (result.next()) {
                 Tenancy ts = new Tenancy(Contract.load(id));
 
-                ts.setStart(result.getString("start"));
+                ts.setStart(result.getDate("start"));
                 ts.setDuration(result.getInt("duration"));
                 ts.setCost(result.getDouble("cost"));
-                ts.setRent(Rent.load(result.getInt("rent")));
-
-                ts.setDate(result.getString("date"));
-                ts.setPlace(result.getString("place"));
-
+                ts.setApartment(Apartment.load(result.getInt("rent")));
 
                 result.close();
                 statement.close();
@@ -109,13 +102,11 @@ public class Tenancy extends Contract {
                 super.save();
                 PreparedStatement statement = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 
-                statement.setString(1, getStart());
-                statement.setInt(2, getDuration());
-                statement.setDouble(3, getCost());
-
-                statement.setString(4, getDate());
-                statement.setString(5, getPlace());
-                statement.setInt(6, getRent().getId());
+                statement.setInt(1, getId());
+                statement.setDate(2, getDate());
+                statement.setInt(3, getDuration());
+                statement.setDouble(4, getCost());
+                statement.setInt(5, getApartment().getId());
 
                 statement.executeUpdate();
 
@@ -130,15 +121,12 @@ public class Tenancy extends Contract {
                 super.save();
                 PreparedStatement statement = con.prepareStatement(updateSQL);
 
-                statement.setString(1, getStart());
+                statement.setDate(1, getStart());
                 statement.setInt(2, getDuration());
                 statement.setDouble(3, getCost());
+                statement.setInt(4, getApartment().getId());
+                statement.setInt(5, getId());
 
-                statement.setString(4, getDate());
-                statement.setString(5, getPlace());
-                statement.setInt(6,getRent().getId());
-
-                statement.setInt(7, getId());
                 statement.executeUpdate();
 
                 statement.close();

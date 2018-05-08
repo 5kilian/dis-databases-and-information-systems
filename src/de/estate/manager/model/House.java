@@ -68,7 +68,7 @@ public class House extends Estate {
 
                 house.setFloors(result.getInt("floors"));
                 house.setPrice(result.getDouble("price"));
-                house.setGarden(result.getBoolean("balcony"));
+                house.setGarden(result.getBoolean("garden"));
 
                 result.close();
                 statement.close();

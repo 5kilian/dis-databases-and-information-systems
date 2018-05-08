@@ -7,17 +7,15 @@ import java.sql.*;
 public class Purchase extends Contract{
 
 
-    private static final String createSQL = "SELECT * FROM PURCHASE WHERE ID = ?";
-    private static final String insertSQL = "INSERT INTO PURCHASES (INSTALLMENTS, RATE," +
-            " DATE, PLACE, SELL) VALUES ( ?, ?, ?, ?, ?)";
-    private static final String updateSQL = "UPDATE PURCHASES SET INSTALLMENTS = ?, RATE = ?," +
-            " DATE = ?, PLACE = ?, SELL = ? WHERE id = ?";
+    private static final String createSQL = "SELECT * FROM PURCHASES WHERE ID = ?";
+    private static final String insertSQL = "INSERT INTO PURCHASES (ID, INSTALLMENTS, RATE, HOUSE) VALUES (?, ?, ?, ?)";
+    private static final String updateSQL = "UPDATE PURCHASES SET INSTALLMENTS = ?, RATE = ?, HOUSE = ? WHERE id = ?";
 
     private int installments;
 
     private int rate;
 
-    private Sell sell;
+    private House house;
 
     public Purchase() {
 
@@ -52,14 +50,13 @@ public class Purchase extends Contract{
         this.rate = rate;
     }
 
-    public Sell getSell() {
-        return sell;
+    public House getHouse() {
+        return house;
     }
 
-    public void setSell(Sell sell) {
-        this.sell = sell;
+    public void setHouse(House house) {
+        this.house = house;
     }
-
 
     public static Purchase load(int id) {
         try {
@@ -69,15 +66,10 @@ public class Purchase extends Contract{
 
             if (result.next()) {
                 Purchase ts = new Purchase(Contract.load(id));
-                ts.setId(id);
 
                 ts.setInstallments(result.getInt("installments"));
                 ts.setRate(result.getInt("rate"));
-                ts.setSell(Sell.load(result.getInt("sell")));
-
-                ts.setDate(result.getString("date"));
-                ts.setPlace(result.getString("place"));
-
+                ts.setHouse(House.load(result.getInt("house")));
 
                 result.close();
                 statement.close();
@@ -97,11 +89,10 @@ public class Purchase extends Contract{
                 super.save();
                 PreparedStatement statement = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 
-                statement.setInt(1, getInstallments());
-                statement.setInt(2, getRate());
-                 statement.setString(3, getDate());
-                statement.setString(4, getPlace());
-                statement.setInt(5, getSell().getId());
+                statement.setInt(1, getId());
+                statement.setInt(2, getInstallments());
+                statement.setInt(3, getRate());
+                statement.setInt(4, getHouse().getId());
 
                 statement.executeUpdate();
 
@@ -118,11 +109,9 @@ public class Purchase extends Contract{
 
                 statement.setInt(1, getInstallments());
                 statement.setInt(2, getRate());
+                statement.setInt(3, getHouse().getId());
+                statement.setInt(4, getId());
 
-                statement.setString(3, getDate());
-                statement.setString(4, getPlace());
-                statement.setInt(5, getSell().getId());
-                statement.setInt(6, getId());
                 statement.executeUpdate();
 
                 statement.close();

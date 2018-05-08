@@ -93,7 +93,7 @@ public class Estate {
                 estate.setArea(result.getInt("area"));
                 estate.setStreet(result.getString("street"));
                 estate.setNumber(result.getInt("number"));
-                estate.setAgent(Agent.load(result.getInt("manages")));
+                estate.setAgent(Agent.load(result.getInt("agent")));
 
                 result.close();
                 statement.close();
