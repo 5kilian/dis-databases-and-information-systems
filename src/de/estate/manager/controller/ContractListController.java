@@ -184,23 +184,25 @@ public class ContractListController {
 
                             dialog.setResultConverter(buttonType -> {
                                 if (buttonType.getText().equals("Save")) {
-                                    return contract;
+                                    Contract contract1 = saveContract(dialog.getDialogPane());
+                                    contract1.setId(contract.getId());
+                                    return contract1;
                                 }
                                 return null;
                             });
 
                             Optional<Contract> result = dialog.showAndWait();
                             result.ifPresent(res -> {
-                                tableView.refresh();
-                                if (contract instanceof Purchase) {
-                                    Purchase purchase = (Purchase) contract;
+                                if (res instanceof Purchase) {
+                                    Purchase purchase = (Purchase) res;
                                     purchase.save();
-                                } else if (contract instanceof Tenancy) {
-                                    Tenancy tenancy = (Tenancy) contract;
+                                } else if (res instanceof Tenancy) {
+                                    Tenancy tenancy = (Tenancy) res;
                                     tenancy.save();
                                 } else {
-                                    contract.save();
+                                    res.save();
                                 }
+                                tableView.refresh();
                             });
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -263,59 +265,7 @@ public class ContractListController {
 
             dialog.setResultConverter(buttonType -> {
                 if (buttonType.getText().equals("Save")) {
-                    DialogPane pane = dialog.getDialogPane();
-
-                    DatePicker dateField = (DatePicker) pane.lookup("#dateField");
-                    TextField placeField = (TextField) pane.lookup("#placeField");
-
-                    TextField fistnameField = (TextField) pane.lookup("#firstNameField");
-                    TextField nameField = (TextField) pane.lookup("#nameField");
-                    TextField addressField = (TextField) pane.lookup("#addressField");
-
-                    Person person = null;
-                    if (!fistnameField.getText().isEmpty() && !nameField.getText().isEmpty() && !addressField.getText().isEmpty()) {
-                        person = new Person();
-                        person.setFirstName(fistnameField.getText());
-                        person.setName(nameField.getText());
-                        person.setAddress(addressField.getText());
-                        person.save();
-                    }
-
-                    Contract contract = new Contract();
-                    contract.setDate(Date.valueOf(dateField.getValue()));
-                    contract.setPlace(placeField.getText());
-
-                    TabPane typePane = (TabPane) pane.lookup("#typePane");
-
-                    Tab selectedItem = typePane.getSelectionModel().getSelectedItem();
-                    switch (selectedItem.getText()) {
-                        case "Purchase":
-                            TextField noInstallmentField = (TextField) pane.lookup("#noInstallmentField");
-                            TextField interestField = (TextField) pane.lookup("#instrestRateField");
-
-                            Purchase purchase = new Purchase(contract);
-                            purchase.setInstallments(Integer.valueOf(noInstallmentField.getText()));
-                            purchase.setRate(Integer.valueOf(interestField.getText()));
-                            purchase.setHouse((House) choiceBox.getValue());
-                            purchase.setPerson(person);
-
-                            return purchase;
-                        case "Tenancy":
-                            DatePicker startDateField = (DatePicker) pane.lookup("#startDateField");
-                            TextField durationField = (TextField) pane.lookup("#durationField");
-                            TextField additionalCostField = (TextField) pane.lookup("#additionalCostField");
-
-                            Tenancy tenancy = new Tenancy(contract);
-                            tenancy.setStart(Date.valueOf(startDateField.getValue()));
-                            tenancy.setDuration(Integer.valueOf(durationField.getText()));
-                            tenancy.setCost(Double.valueOf(additionalCostField.getText()));
-                            tenancy.setApartment((Apartment) choiceBox.getValue());
-                            tenancy.setPerson(person);
-
-                            return tenancy;
-                        default:
-                            return contract;
-                    }
+                    return saveContract(dialog.getDialogPane());
                 }
                 return null;
             });
@@ -344,6 +294,61 @@ public class ContractListController {
             stage.setScene(new Scene(root, 800, 600));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public Contract saveContract(DialogPane pane) {
+        DatePicker dateField = (DatePicker) pane.lookup("#dateField");
+        TextField placeField = (TextField) pane.lookup("#placeField");
+
+        TextField fistnameField = (TextField) pane.lookup("#firstNameField");
+        TextField nameField = (TextField) pane.lookup("#nameField");
+        TextField addressField = (TextField) pane.lookup("#addressField");
+
+        Person person = null;
+        if (!fistnameField.getText().isEmpty() && !nameField.getText().isEmpty() && !addressField.getText().isEmpty()) {
+            person = new Person();
+            person.setFirstName(fistnameField.getText());
+            person.setName(nameField.getText());
+            person.setAddress(addressField.getText());
+            person.save();
+        }
+
+        Contract contract = new Contract();
+        contract.setDate(Date.valueOf(dateField.getValue()));
+        contract.setPlace(placeField.getText());
+
+        TabPane typePane = (TabPane) pane.lookup("#typePane");
+        ChoiceBox choiceBox = (ChoiceBox) pane.lookup("#choiceBox");
+
+        Tab selectedItem = typePane.getSelectionModel().getSelectedItem();
+        switch (selectedItem.getText()) {
+            case "Purchase":
+                TextField noInstallmentField = (TextField) pane.lookup("#noInstallmentField");
+                TextField interestField = (TextField) pane.lookup("#instrestRateField");
+
+                Purchase purchase = new Purchase(contract);
+                purchase.setInstallments(Integer.valueOf(noInstallmentField.getText()));
+                purchase.setRate(Integer.valueOf(interestField.getText()));
+                purchase.setHouse((House) choiceBox.getValue());
+                purchase.setPerson(person);
+
+                return purchase;
+            case "Tenancy":
+                DatePicker startDateField = (DatePicker) pane.lookup("#startDateField");
+                TextField durationField = (TextField) pane.lookup("#durationField");
+                TextField additionalCostField = (TextField) pane.lookup("#additionalCostField");
+
+                Tenancy tenancy = new Tenancy(contract);
+                tenancy.setStart(Date.valueOf(startDateField.getValue()));
+                tenancy.setDuration(Integer.valueOf(durationField.getText()));
+                tenancy.setCost(Double.valueOf(additionalCostField.getText()));
+                tenancy.setApartment((Apartment) choiceBox.getValue());
+                tenancy.setPerson(person);
+
+                return tenancy;
+            default:
+                return contract;
         }
     }
 }
