@@ -146,6 +146,10 @@ public class ContractListController {
                             dateField.setValue(contract.getDate().toLocalDate());
                             placeField.setText(String.valueOf(contract.getPlace()));
 
+                            nameField.setText(String.valueOf(contract.getPerson().getName()));
+                            firstNameField.setText(String.valueOf(contract.getPerson().getFirstName()));
+                            addressField.setText(String.valueOf(contract.getPerson().getAddress()));
+
                             ChoiceBox choiceBox = (ChoiceBox) pane.lookup("#choiceBox");
 
 
@@ -161,8 +165,11 @@ public class ContractListController {
 
                                 typePane.getSelectionModel().select(1);
 
-                                ObservableList<Estate> houseList = FXCollections.observableArrayList(estateService.getHouses());
+                                ObservableList<Estate> houseList = FXCollections.observableArrayList(purchase.getHouse());
                                 choiceBox.setItems(houseList);
+
+
+
 
                             } else if (contract instanceof Tenancy) {
                                 TextField startDateField = (TextField) pane.lookup("#startDateField");
@@ -175,7 +182,7 @@ public class ContractListController {
                                 additionalCostField.setText(String.valueOf(tenancy.getCost()));
                                 typePane.getSelectionModel().select(0);
 
-                                ObservableList<Estate> apartmentList = FXCollections.observableArrayList(estateService.getApartments());
+                                ObservableList<Estate> apartmentList = FXCollections.observableArrayList(tenancy.getApartment());
                                 choiceBox.setItems(apartmentList);
                             }
 
