@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="de.estate.manager.model.Estate" table="ESTATES">
+        <id name="id" column="ID"> <generator class="increment"/>
+        </id>
+        <property name="city" type="java.lang.String" column="CITY"/>
+        <property name="zip" type="int" column="ZIP"/>
+        <property name="street" type="java.lang.String" column="STREET"/>
+        <property name="number" type="int" column="NUMBER"/>
+        <property name="area" type="int" column="AREA"/>
+        <property name="agent" type="Agent" column="agent"/>
+
+
+        <subclass name="de.estate.manager.model.Apartment" discriminator-value="apartment">
+            <property name="floor" type="int" column="FLOOR"/>
+            <property name="rent" type="double" column="RENT"/>
+            <property name="rooms" type="double" column="ROOMS"/>
+            <property name="balcony" type="boolean" column="BALCONY"/>
+            <property name="kitchen" type="boolean" column="KITCHEN"/>
+        </subclass>
+
+        <subclass name="de.estate.manager.model.House" discriminator-value="house">
+            <property name="floors" type="int" column="FLOORS"/>
+            <property name="price" type="double" column="PRICE"/>
+            <property name="garden" type="boolean" column="GARDEN"/>
+        </subclass>
+
+        <many-to-one name="agent" class="de.estate.manager.model.Agent" column="AGENT" not-null="true" />
+
+    </class>
+</hibernate-mapping>

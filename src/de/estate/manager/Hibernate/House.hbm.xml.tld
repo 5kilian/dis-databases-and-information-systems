@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="de.estate.manager.model.House" table="HOUSES">
+        <id name="id" column="ID"> <generator class="increment"/>
+        </id>
+        <property name="floors" type="int" column="FLOORS"/>
+        <property name="price" type="double" column="PRICE"/>
+        <property name="garden" type="boolean" column="GARDEN"/>
+
+        <property name="city" type="java.lang.String" column="CITY"/>
+        <property name="zip" type="int" column="ZIP"/>
+        <property name="street" type="java.lang.String" column="STREET"/>
+        <property name="number" type="int" column="NUMBER"/>
+        <property name="area" type="int" column="AREA"/>
+        <property name="agent" type="Agent" column="agent"/>
+
+
+
+
+    </class>
+</hibernate-mapping>

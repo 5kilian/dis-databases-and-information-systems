@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="de.estate.manager.model.Agent" table="AGENTS">
+        <id name="id" column="ID"> <generator class="increment"/>
+        </id>
+        <property name="address" type="java.lang.String" column="ADDRESS"/>
+        <property name="name" type="java.lang.String" column="NAME"/>
+        <property name="login" type="java.lang.String" column="LOGIN"/>
+        <property name="password" type="int" column="PASSWORD"/>
+
+
+    </class>
+</hibernate-mapping>

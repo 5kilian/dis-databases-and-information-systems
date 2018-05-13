@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="de.estate.manager.model.Tenancy" table="PURCHASES">
+        <id name="id" column="ID"> <generator class="increment"/>
+        </id>
+        <property name="place" type="java.lang.String" column="PLACE"/>
+        <property name="date" type="java.util.Date" column="DATE"/>
+        <property name="person" type="Person" column="PERSON"/>
+        <property name="start" type="java.util.Date" column="START"/>
+        <property name="duration" type="int" column="DURATION"/>
+        <property name="cost" type="double" column="COST"/>
+
+
+
+    </class>
+</hibernate-mapping>

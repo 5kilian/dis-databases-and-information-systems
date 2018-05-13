@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="de.estate.manager.model.Contract" table="CONTRACTS">
+        <id name="id" column="ID"> <generator class="increment"/>
+        </id>
+
+        <discriminator column="type" type="string"></discriminator>
+        <property name="place" type="java.lang.String" column="PLACE"/>
+        <property name="date" type="java.util.Date" column="DATE"/>
+        <property name="person" type="Person" column="PERSON"/>
+
+
+        <subclass name="de.estate.manager.model.Tenancy" discriminator-value="tenancy">
+            <property name="place" type="java.lang.String" column="PLACE"/>
+            <property name="date" type="java.util.Date" column="DATE"/>
+            <property name="person" type="Person" column="PERSON"/>
+            <property name="start" type="java.util.Date" column="START"/>
+            <property name="duration" type="int" column="DURATION"/>
+            <property name="cost" type="double" column="COST"/>
+
+            <many-to-one name="person" class="de.estate.manager.model.Person" column="PERSON" not-null="true" />
+
+        </subclass>
+
+        <subclass name="de.estate.manager.model.Purchase" discriminator-value="purchase">
+            <property name="place" type="java.lang.String" column="PLACE"/>
+            <property name="date" type="java.util.Date" column="DATE"/>
+            <property name="person" type="Person" column="PERSON"/>
+            <property name="installments" type="int" column="INSTALLMENTS"/>
+            <property name="rate" type="int" column="RATE"/>
+            <property name="house" type="House" column="HOUSE"/>
+
+            <many-to-one name="person" class="de.estate.manager.model.Person" column="PERSON" not-null="true" />
+
+
+        </subclass>
+
+    </class>
+</hibernate-mapping>
