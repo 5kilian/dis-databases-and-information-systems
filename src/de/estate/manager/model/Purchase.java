@@ -1,12 +1,10 @@
 package de.estate.manager.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "PURCHASE")
+@PrimaryKeyJoinColumn(name = "ID")
 public class Purchase extends Contract {
 
     @Column(columnDefinition = "INT")
@@ -15,7 +13,7 @@ public class Purchase extends Contract {
     @Column(columnDefinition = "INT")
     private int rate;
 
-    @OneToOne(mappedBy = "HOUSE")
+    @OneToOne(mappedBy = "purchase")
     private House house;
 
     public Purchase() {

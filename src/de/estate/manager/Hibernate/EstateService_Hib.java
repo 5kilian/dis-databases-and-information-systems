@@ -12,19 +12,21 @@ import de.estate.manager.model.*;
 import java.util.List;
 
 public class EstateService_Hib {
-
+/*
 
     // Methoden für Persons
 
     public List<Person> getAllPersons(){
-        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
         List personen = session.createQuery("select * from Persons ");
         return personen;
 
     }
 
     public Long addPerson(String firstName, String name, String adress ) {
-        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
         Person person = new Person();
         person.setFirstName(firstName);
         person.setName(name);
@@ -228,4 +230,5 @@ public class EstateService_Hib {
         Purchase purchase = (Purchase) session.get(Purchase.class, id);
         session.delete(purchase);
     }
+    */
 }

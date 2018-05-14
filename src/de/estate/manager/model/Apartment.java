@@ -1,11 +1,10 @@
 package de.estate.manager.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "APARTMENT")
+@PrimaryKeyJoinColumn(name = "ID")
 public class Apartment extends Estate {
 
     @Column(columnDefinition = "INT")
@@ -23,6 +22,8 @@ public class Apartment extends Estate {
     @Column(columnDefinition = "SMALLINT")
     private boolean kitchen;
 
+    @OneToOne
+    private Tenancy tenancy;
     public Apartment() {
 
     }

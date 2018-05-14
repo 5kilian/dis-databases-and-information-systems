@@ -17,7 +17,7 @@ public class Contract {
     @Column(columnDefinition = "VARCHAR(255)")
     protected String place;
 
-    @OneToMany(mappedBy = "PERSON")
+    @ManyToOne
     protected Person person;
 
     public int getId() {

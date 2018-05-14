@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class ContractListController {
+
+    /*
     private ContractService contractService;
     private EstateService estateService;
 
@@ -351,5 +353,7 @@ public class ContractListController {
                 return contract;
         }
     }
+
+    */
 }
 

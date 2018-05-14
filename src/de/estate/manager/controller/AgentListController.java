@@ -20,6 +20,8 @@ import java.util.Optional;
 
 public class AgentListController {
 
+
+    /*
     private AgentService agentService;
     @FXML
     private TableView<Agent> tableView;
@@ -151,4 +153,6 @@ public class AgentListController {
             e.printStackTrace();
         }
     }
+
+    */
 }

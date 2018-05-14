@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class EstateService {
-
+/*
     public Estate get(int id) {
         return Estate.load(id);
     }
@@ -160,5 +160,5 @@ public class EstateService {
             e.printStackTrace();
         }
     }
-
+*/
 }

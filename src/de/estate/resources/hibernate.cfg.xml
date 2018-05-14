@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+        " http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
 	<session-factory>
 		<property name="connection.driver_class">com.ibm.db2.jcc.DB2Driver</property>
 		<property name="connection.url">jdbc:db2://vsisls4.informatik.uni-hamburg.de:50001/VSISP</property>
 		<property name="connection.username">vsisp42</property>
-		<property name="connection.password">${vsisp.password}</property>
+		<property name="connection.password">YPzU5ED6</property>
 
 		<property name="dialect">org.hibernate.dialect.DB2Dialect</property>
 		<property name="current_session_context_class">thread</property>

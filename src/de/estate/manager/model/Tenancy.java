@@ -1,9 +1,6 @@
 package de.estate.manager.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
@@ -19,7 +16,7 @@ public class Tenancy extends Contract {
     @Column(columnDefinition = "DOUBLE")
     private double cost;
 
-    @OneToOne(mappedBy = "APARTMENT")
+    @OneToOne(mappedBy = "tenancy")
     private Apartment apartment;
 
     public Date getStart() {

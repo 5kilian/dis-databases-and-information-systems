@@ -2,6 +2,9 @@ package de.estate.manager.service;
 
 import de.estate.manager.model.*;
 import de.estate.manager.util.DB2Connection;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,13 +12,35 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class ContractService {
+/*
+
+    private SessionFactory sessionFactory;
+
+    public ContractService(){
+        sessionFactory = new Configuration().configure().buildSessionFactory();
+    }
+
 
     public Contract get(int id) {
         return Contract.load(id);
     }
 
+
+    public List<Contract> getAll(){
+        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
+        return session.createQuery("SELECT * FROM CONTRACTS c WHERE c.ID NOT IN (\n" +
+                "  SELECT c.ID FROM CONTRACTS c, PURCHASES s WHERE c.ID = s.ID\n" +
+                ") AND c.ID NOT IN (\n" +
+                "  SELECT c.ID FROM CONTRACTS c, TENANCIES t WHERE c.ID = t.ID\n" +
+                ")").list();
+    }
+
+
+
     public List<Contract> getAll() {
         List<Contract> contracts = new ArrayList<>();
+
+        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
 
         try {
             ResultSet contractss = DB2Connection.getConnection().prepareStatement("SELECT * FROM CONTRACTS c WHERE c.ID NOT IN (\n" +
@@ -102,5 +127,6 @@ public class ContractService {
             e.printStackTrace();
         }
     }
+    */
 
 }

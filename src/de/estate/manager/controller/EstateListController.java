@@ -25,6 +25,7 @@ import java.util.Optional;
 
 public class EstateListController {
 
+    /*
     private EstateService estateService;
     private AgentService agentService;
     @FXML
@@ -322,4 +323,5 @@ public class EstateListController {
                 return estate;
         }
     }
+    */
 }

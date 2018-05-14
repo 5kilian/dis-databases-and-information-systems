@@ -26,7 +26,7 @@ public class Estate {
     @Column(columnDefinition = "INT")
     protected int area;
 
-    @OneToMany(mappedBy = "AGENT")
+    @ManyToOne
     protected Agent agent;
 
     public int getId() {
