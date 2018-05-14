@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "PURCHASE")
-@PrimaryKeyJoinColumn(name = "ID")
 public class Purchase extends Contract {
 
     @Column(columnDefinition = "INT")

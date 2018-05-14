@@ -5,6 +5,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "CONTRACT")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Contract {
 
     @Id

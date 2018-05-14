@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "ESTATE")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Estate {
 
     @Id

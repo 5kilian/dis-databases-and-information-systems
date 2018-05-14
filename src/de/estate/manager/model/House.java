@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "HOUSE")
-@PrimaryKeyJoinColumn(name = "ID")
 public class House extends Estate {
 
     @Column(columnDefinition = "INT")
@@ -17,7 +16,9 @@ public class House extends Estate {
     private boolean garden;
 
     @OneToOne
+    @JoinColumn(name = "id")
     private Purchase purchase;
+
     public House() {
 
     }

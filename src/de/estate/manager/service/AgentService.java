@@ -2,12 +2,10 @@ package de.estate.manager.service;
 
 import de.estate.manager.model.Agent;
 import de.estate.manager.util.DB2Connection;
+import de.estate.manager.util.SessionFactory_hib;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
-
-import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,16 +18,14 @@ public class AgentService {
     private SessionFactory sessionFactory;
 
     public AgentService(){
-        Configuration configuration = new Configuration().configure(new File("src/de/estate/resources/hibernate.cfg.xml"));
-        configuration.setProperty("connection.password", System.getenv("vsisp42.password"));
-        sessionFactory = configuration.buildSessionFactory();
+        sessionFactory = SessionFactory_hib.getSessionFactory();
     }
 
 
 
-    public List<Agent> getAll(){
+    public List getAll(){
         Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
-        return session.createQuery("select * from AGENTS").list();
+        return session.createQuery("SELECT AGENT FROM AGENTS").list();
     }
 
     public Integer addAgent(Agent agent) {
@@ -52,7 +48,6 @@ public class AgentService {
         Agent agent = (Agent) session.get(Agent.class, id);
         session.delete(agent);
     }
-
 
     public void delete(Agent agent) {
         delete(agent.getId());
