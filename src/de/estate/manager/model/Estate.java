@@ -1,26 +1,32 @@
 package de.estate.manager.model;
 
-import de.estate.manager.util.DB2Connection;
+import javax.persistence.*;
 
-import java.sql.*;
 
+@Entity
+@Table(name = "ESTATE")
 public class Estate {
-    private static final String createSQL = "SELECT * FROM ESTATES WHERE ID = ?";
-    private static final String insertSQL = "INSERT INTO ESTATES (CITY, ZIP, STREET, NUMBER, AREA, AGENT) VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String updateSQL = "UPDATE ESTATES SET CITY = ?, ZIP = ?, STREET = ?, NUMBER = ?, AREA = ?, AGENT = ? WHERE ID = ?";
 
+    @Id
+    @GeneratedValue
     protected int id = -1;
 
+    @Column(columnDefinition = "VARCHAR(255)")
     protected String city;
 
+    @Column(columnDefinition = "INT")
     protected int zip;
 
+    @Column(columnDefinition = "VARCHAR(255)")
     protected String street;
 
+    @Column(columnDefinition = "INT")
     protected int number;
 
+    @Column(columnDefinition = "INT")
     protected int area;
 
+    @OneToMany(mappedBy = "AGENT")
     protected Agent agent;
 
     public int getId() {
@@ -77,74 +83,6 @@ public class Estate {
 
     public void setAgent(Agent agent) {
         this.agent = agent;
-    }
-
-    public static Estate load(int id) {
-        try {
-            PreparedStatement statement = DB2Connection.getConnection().prepareStatement(createSQL);
-            statement.setInt(1, id);
-            ResultSet result = statement.executeQuery();
-
-            if (result.next()) {
-                Estate estate = new Estate();
-                estate.setId(id);
-                estate.setCity(result.getString("city"));
-                estate.setZip(result.getInt("zip"));
-                estate.setArea(result.getInt("area"));
-                estate.setStreet(result.getString("street"));
-                estate.setNumber(result.getInt("number"));
-                estate.setAgent(Agent.load(result.getInt("agent")));
-
-                result.close();
-                statement.close();
-                return estate;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public void save() {
-        Connection con = DB2Connection.getConnection();
-
-        try {
-            if (getId() == -1) {
-                PreparedStatement statement = con.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
-
-                statement.setString(1, getCity());
-                statement.setInt(2, getZip());
-                statement.setString(3, getStreet());
-                statement.setInt(4, getNumber());
-                statement.setInt(5, getArea());
-                statement.setInt(6, getAgent().getId());
-
-                statement.executeUpdate();
-
-                ResultSet result = statement.getGeneratedKeys();
-                if (result.next()) {
-                    setId(result.getInt(1));
-                }
-
-                result.close();
-                statement.close();
-            } else {
-                PreparedStatement statement = con.prepareStatement(updateSQL);
-
-                statement.setString(1, getCity());
-                statement.setInt(2, getZip());
-                statement.setString(3, getStreet());
-                statement.setInt(4, getNumber());
-                statement.setInt(5, getArea());
-                statement.setInt(6, getAgent().getId());
-                statement.setInt(7, getId());
-                statement.executeUpdate();
-
-                statement.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
