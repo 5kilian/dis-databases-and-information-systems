@@ -8,6 +8,7 @@ import de.estate.manager.util.SessionFactory_hib;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EstateService {
@@ -19,13 +20,33 @@ public class EstateService {
     }
 
 
+    // geht das so mit Object? :D
+
     public List<Estate> getAll(){
 
-    }
+
+            List list = new ArrayList();
+
+            for (Object element : getAllEstates()) {
+                list.add(element);
+            }
+            for (Object element : getAllApartments()) {
+                list.add(element);
+            }
+
+            for (Object element : getAllHouses()) {
+                list.add(element);
+            }
+
+            return list;
+        }
 
     public List<Estate> getAllEstates(){
         Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
-        return session.createQuery("FROM Estate ").list();
+        return session.createQuery("FROM Estate e where e.id not in " +
+                "(from Estate e, House h where e.id = h.id) " +
+                "and e.id not in " +
+                "(from Estate e, Apartment a where e.id = a.id)").list();
     }
 
     public List<House> getAllHouses(){
@@ -49,7 +70,7 @@ public class EstateService {
 
     public void delete(int id){
         Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
-        Estate estate = (Contract) session.get(Estate.class, id);
+        Estate estate = (Estate) session.get(Estate.class, id);
         session.delete(estate);
     }
 
@@ -57,11 +78,11 @@ public class EstateService {
         delete(contract.getId());
     }
 
-    public Contract get(int estateId) {
+    public Estate get(int estateId) {
         Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
         Estate estate = (Estate) session.get(Estate.class, estateId);
         session.getTransaction().commit();
         return estate;
     }
-
 }
+    
