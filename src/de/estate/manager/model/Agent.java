@@ -10,10 +10,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "AGENTS")
-@SQLInsert(sql = "SELECT * FROM AGENTS WHERE ID = ?")
-@SQLUpdate(sql = "UPDATE AGENTS SET NAME = ?, LOGIN = ?, PASSWORD = ?, ADDRESS = ? WHERE ID = ?")
-@Loader(namedQuery = "Agent")
-@NamedNativeQuery(name = "Agent", query = "SELECT * FROM AGENTS WHERE ID = ?", resultClass = Agent.class)
 public class Agent {
 
 

@@ -9,6 +9,7 @@
 		<property name="connection.url">jdbc:db2://vsisls4.informatik.uni-hamburg.de:50001/VSISP</property>
 		<property name="connection.username">vsisp42</property>
 		<property name="connection.password">YPzU5ED6</property>
+    <property name="connection.autocommit">true</property>
 
 		<property name="dialect">org.hibernate.dialect.DB2Dialect</property>
 		<property name="current_session_context_class">thread</property>
