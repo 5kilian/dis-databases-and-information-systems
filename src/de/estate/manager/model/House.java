@@ -3,7 +3,7 @@ package de.estate.manager.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "HOUSE")
+@Table(name = "HOUSES")
 public class House extends Estate {
 
     @Column(columnDefinition = "INT")

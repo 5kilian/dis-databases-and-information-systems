@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "ESTATE")
+@Table(name = "ESTATES")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Estate {
 

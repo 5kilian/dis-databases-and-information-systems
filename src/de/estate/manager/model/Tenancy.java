@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name = "TENANCY")
+@Table(name = "TENANCIES")
 public class Tenancy extends Contract {
 
     @Column(columnDefinition = "DATE")

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name = "CONTRACT")
+@Table(name = "CONTRACTS")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Contract {
 

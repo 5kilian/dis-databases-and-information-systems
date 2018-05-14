@@ -3,7 +3,7 @@ package de.estate.manager.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "PURCHASE")
+@Table(name = "PURCHASES")
 public class Purchase extends Contract {
 
     @Column(columnDefinition = "INT")
