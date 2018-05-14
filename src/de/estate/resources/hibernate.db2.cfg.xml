@@ -7,8 +7,8 @@
 	<session-factory>
 		<property name="connection.driver_class">com.ibm.db2.jcc.DB2Driver</property>
 		<property name="connection.url">jdbc:db2://vsisls4.informatik.uni-hamburg.de:50001/VSISP</property>
-		<property name="connection.username">vsispXX</property>
-		<property name="connection.password">XXXXX</property>
+		<property name="connection.username">vsisp42</property>
+		<property name="connection.password">${vsisp.password}</property>
 
 		<property name="dialect">org.hibernate.dialect.DB2Dialect</property>
 		<property name="current_session_context_class">thread</property>
@@ -18,8 +18,14 @@
 		<!-- Drop and re-create the database schema on startup (none | validate | update | create | create-drop) -->
 		<property name="hbm2ddl.auto">create</property>
 
-		<mapping resource="de/dis2018/data/mapping/Person.hbm.xml" />
-		<mapping resource="de/dis2018/data/mapping/EstateAgent.hbm.xml" />
-		<mapping resource="de/dis2018/data/mapping/Estate.hbm.xml" />
+
+		<mapping class="de.estate.manager.model.Contract" />
+		<mapping class="de.estate.manager.model.Apartment" />
+		<mapping class="de.estate.manager.model.Agent" />
+		<mapping class="de.estate.manager.model.Estate" />
+		<mapping class="de.estate.manager.model.House" />
+		<mapping class="de.estate.manager.model.Person" />
+		<mapping class="de.estate.manager.model.Purchase" />
+		<mapping class="de.estate.manager.model.Tenancy" />
 	</session-factory>
 </hibernate-configuration>
