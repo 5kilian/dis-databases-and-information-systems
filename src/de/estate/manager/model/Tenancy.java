@@ -18,6 +18,7 @@ public class Tenancy extends Contract {
 
     @OneToOne
     @JoinColumn(name = "apartment")
+    @Column(unique = true)
     private Apartment apartment;
 
     public Date getStart() {

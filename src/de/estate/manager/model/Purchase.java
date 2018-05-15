@@ -14,6 +14,7 @@ public class Purchase extends Contract {
 
     @OneToOne
     @JoinColumn(name = "house")
+    @Column(unique = true)
     private House house;
 
     public Purchase() {
