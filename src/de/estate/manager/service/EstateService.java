@@ -12,48 +12,45 @@ public class EstateService {
 
     private SessionFactory sessionFactory;
 
-    public EstateService(){
+    public EstateService() {
         sessionFactory = SessionFactory_hib.getSessionFactory();
     }
 
+    public List<Estate> getAll() {
+        List list = new ArrayList();
 
-    // geht das so mit Object? :D
+        list.addAll(getAllApartments());
+        list.addAll(getAllHouses());
+        list.addAll(getAllEstates());
 
-    public List<Estate> getAll(){
-
-
-            List list = new ArrayList();
-
-            for (Object element : getAllEstates()) {
-                list.add(element);
-            }
-            for (Object element : getAllApartments()) {
-                list.add(element);
-            }
-
-            for (Object element : getAllHouses()) {
-                list.add(element);
-            }
-
-            return list;
-        }
-
-    public List<Estate> getAllEstates(){
-        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
-        return session.createQuery("FROM Estate e where e.id not in " +
-                "(from Estate e, House h where e.id = h.id) " +
-                "and e.id not in " +
-                "(from Estate e, Apartment a where e.id = a.id)").list();
+        return list;
     }
 
-    public List<Estate> getAllHouses(){
-        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
-        return session.createQuery("FROM House ").list();
+    public List getAllEstates() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        List estates = session.createQuery("FROM Estate e WHERE e.id NOT IN " +
+                "(SELECT e.id FROM Estate e, House h WHERE e.id = h.id) " +
+                "AND e.id NOT IN " +
+                "(SELECT e.id FROM Estate e, Apartment a WHERE e.id = a.id)").list();
+        session.getTransaction().commit();
+        return estates;
     }
 
-    public List<Estate> getAllApartments(){
-        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
-        return session.createQuery("FROM Apartment ").list();
+    public List getAllHouses() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        List houses = session.createQuery("FROM House").list();
+        session.getTransaction().commit();
+        return houses;
+    }
+
+    public List getAllApartments() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        List apartments = session.createQuery("FROM Apartment ").list();
+        session.getTransaction().commit();
+        return apartments;
     }
 
     public Integer addEstate(Estate Estate) {
@@ -65,19 +62,22 @@ public class EstateService {
     }
 
 
-    public void delete(int id){
-        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
+    public void delete(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
         Estate estate = (Estate) session.get(Estate.class, id);
         session.delete(estate);
     }
 
     public void delete(Estate estate) {
-        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
         session.delete(estate);
     }
 
     public Estate get(int estateId) {
-        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
         Estate estate = (Estate) session.get(Estate.class, estateId);
         session.getTransaction().commit();
         return estate;

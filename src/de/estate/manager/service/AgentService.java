@@ -23,8 +23,11 @@ public class AgentService {
 
 
     public List getAll(){
-        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
-        return session.createQuery("FROM Agent").list();
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        List agents = session.createQuery("FROM Agent").list();
+        session.getTransaction().commit();
+        return agents;
     }
 
     public Integer addAgent(Agent agent) {
@@ -42,15 +45,24 @@ public class AgentService {
         return agent;
     }
 
+    public void save(Agent agent) {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        session.save(agent);
+        session.getTransaction().commit();
+    }
+
     public void delete(int id){
         Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
-        Agent agent = (Agent) session.get(Agent.class, id);
-        session.delete(agent);
+        session.delete(session.get(Agent.class, id));
+        session.getTransaction().commit();
     }
 
     public void delete(Agent agent) {
-        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
         session.delete(agent);
+        session.getTransaction().commit();
     }
 
     public Agent validate(String name, String password) {
