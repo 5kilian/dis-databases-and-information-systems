@@ -4,6 +4,7 @@ import de.estate.manager.model.Agent;
 import de.estate.manager.util.SessionFactory_hib;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class AgentService {
     public void save(Agent agent) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        session.save(agent);
+        session.update(agent);
         session.getTransaction().commit();
     }
 
@@ -66,9 +67,12 @@ public class AgentService {
     public Agent validate(String name, String password) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        String querry = String.format("SELECT * FROM AGENTS WHERE LOGIN = %s AND PASSWORD = %s", name, password);
-        List agents = session.createQuery(querry).list();
+        Query query = session.createQuery("FROM Agent a WHERE a.login = :login AND a.password = :password ");
+        query.setParameter("login", name);
+        query.setParameter("password", password);
 
+        List agents = query.list();
+        session.getTransaction().commit();
         if (!agents.isEmpty()) {
             return (Agent) agents.get(0);
 

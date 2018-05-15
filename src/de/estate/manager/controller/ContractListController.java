@@ -172,12 +172,12 @@ public class ContractListController {
                                 ObservableList<Estate> houseList = FXCollections.observableArrayList(estateService.getAllHouses());
                                 choiceBox.setItems(houseList);
                             } else if (contract instanceof Tenancy) {
-                                TextField startDateField = (TextField) pane.lookup("#startDateField");
+                                DatePicker startDateField = (DatePicker) pane.lookup("#startDateField");
                                 TextField durationField = (TextField) pane.lookup("#durationField");
                                 TextField additionalCostField = (TextField) pane.lookup("#additionalCostField");
 
                                 Tenancy tenancy = (Tenancy) contract;
-                                startDateField.setText(String.valueOf(tenancy.getStart()));
+                                startDateField.setValue(tenancy.getStart().toLocalDate());
                                 durationField.setText(String.valueOf(tenancy.getDuration()));
                                 additionalCostField.setText(String.valueOf(tenancy.getCost()));
                                 typePane.getSelectionModel().select(0);

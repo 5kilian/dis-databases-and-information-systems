@@ -19,7 +19,9 @@ public class PersonService {
 
     public List getAll(){
         Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
-        return session.createQuery("FROM Person ").list();
+        List list =  session.createQuery("FROM Person ").list();
+        session.getTransaction().commit();
+        return list;
     }
 
     public Integer addPerson(Person person) {
@@ -40,25 +42,29 @@ public class PersonService {
     public void delete(int id){
         Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
         Person person = (Person) session.get(Person.class, id);
+
         session.delete(person);
+        session.getTransaction().commit();
     }
 
     public void delete(Person person) {
         Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
         session.delete(person);
+        session.getTransaction().commit();
     }
 
 
     public Person loadPerson(int personId) {
         Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
-        Person person = (Person) session.get(Person.class, personId); session.getTransaction().commit();
+        Person person = (Person) session.get(Person.class, personId);
+        session.getTransaction().commit();
         return person;
     }
 
     public void save(Person person){
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        session.save(person);
+        session.update(person);
         session.getTransaction().commit();
     }
 }

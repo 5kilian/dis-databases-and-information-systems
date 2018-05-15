@@ -67,12 +67,14 @@ public class EstateService {
         session.beginTransaction();
         Estate estate = (Estate) session.get(Estate.class, id);
         session.delete(estate);
+        session.getTransaction().commit();
     }
 
     public void delete(Estate estate) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         session.delete(estate);
+        session.getTransaction().commit();
     }
 
     public Estate get(int estateId) {
@@ -86,7 +88,7 @@ public class EstateService {
     public void save(Estate estate){
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        session.save(estate);
+        session.update(estate);
         session.getTransaction().commit();
     }
 

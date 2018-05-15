@@ -93,7 +93,7 @@ public class ContractService {
     public void save(Contract contract){
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        session.save(contract);
+        session.update(contract);
         session.getTransaction().commit();
     }
 
