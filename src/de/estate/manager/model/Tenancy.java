@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name = "TENANCIES")
+@Table(name = "TENANCIES", uniqueConstraints = {@UniqueConstraint(columnNames = {"apartment"})})
 public class Tenancy extends Contract {
 
     @Column(columnDefinition = "DATE")
@@ -18,7 +18,6 @@ public class Tenancy extends Contract {
 
     @OneToOne
     @JoinColumn(name = "apartment")
-    @Column(unique = true)
     private Apartment apartment;
 
     public Date getStart() {

@@ -3,7 +3,7 @@ package de.estate.manager.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "PURCHASES")
+@Table(name = "PURCHASES", uniqueConstraints = {@UniqueConstraint(columnNames = {"house"})})
 public class Purchase extends Contract {
 
     @Column(columnDefinition = "INT")
@@ -14,7 +14,6 @@ public class Purchase extends Contract {
 
     @OneToOne
     @JoinColumn(name = "house")
-    @Column(unique = true)
     private House house;
 
     public Purchase() {

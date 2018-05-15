@@ -1,14 +1,10 @@
 package de.estate.manager.service;
 
 import de.estate.manager.model.Agent;
-import de.estate.manager.util.DB2Connection;
 import de.estate.manager.util.SessionFactory_hib;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 public class AgentService {
