@@ -82,4 +82,13 @@ public class EstateService {
         session.getTransaction().commit();
         return estate;
     }
+
+    public void save(Estate estate){
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        session.save(estate);
+        session.getTransaction().commit();
+    }
+
+
 }

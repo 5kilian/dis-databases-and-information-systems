@@ -144,12 +144,12 @@ public class EstateListController {
                                 tableView.refresh();
                                 if (res instanceof House) {
                                     House house = (House) res;
-                                    estateService.addEstate(house);
+                                    estateService.save(house);
                                 } else if (res instanceof Apartment) {
                                     Apartment apartment = (Apartment) res;
-                                    estateService.addEstate(apartment);
+                                    estateService.save(apartment);
                                 } else {
-                                    estateService.addEstate(res);
+                                    estateService.save(res);
                                 }
                             });
                         } catch (IOException e) {

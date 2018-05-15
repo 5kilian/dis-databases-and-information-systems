@@ -16,13 +16,12 @@ public class AgentService {
 
     private SessionFactory sessionFactory;
 
-    public AgentService(){
+    public AgentService() {
         sessionFactory = SessionFactory_hib.getSessionFactory();
     }
 
 
-
-    public List getAll(){
+    public List getAll() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         List agents = session.createQuery("FROM Agent").list();
@@ -39,7 +38,8 @@ public class AgentService {
     }
 
     public Agent get(int agentId) {
-        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
         Agent agent = (Agent) session.get(Agent.class, agentId);
         session.getTransaction().commit();
         return agent;
@@ -52,8 +52,9 @@ public class AgentService {
         session.getTransaction().commit();
     }
 
-    public void delete(int id){
-        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
+    public void delete(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
         session.delete(session.get(Agent.class, id));
         session.getTransaction().commit();
     }
@@ -65,24 +66,16 @@ public class AgentService {
         session.getTransaction().commit();
     }
 
-    public Agent validate(String name, String password) {
-        try {
-            PreparedStatement statement = DB2Connection.getConnection().prepareStatement("SELECT * FROM AGENTS WHERE LOGIN = ? AND PASSWORD = ?");
-            statement.setString(1, name);
-            statement.setString(2, password);
-            ResultSet result = statement.executeQuery();
 
-            if (result.next()) {
-                Agent agent = new Agent();
-                agent.setId(result.getInt("id"));
-                agent.setName(result.getString("name"));
-                agent.setLogin(result.getString("login"));
-                agent.setPassword(result.getString("password"));
-                agent.setAddress(result.getString("address"));
-                return agent;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public Agent validate(String name, String password) {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        String querry = String.format("SELECT * FROM AGENTS WHERE LOGIN = %s AND PASSWORD = %s", name, password);
+        List agents = session.createQuery(querry).list();
+
+        if (!agents.isEmpty()) {
+            return (Agent) agents.get(0);
+
         }
         return null;
     }

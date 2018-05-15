@@ -199,12 +199,12 @@ public class ContractListController {
                             result.ifPresent(res -> {
                                 if (res instanceof Purchase) {
                                     Purchase purchase = (Purchase) res;
-                                    contractService.addContract(purchase);
+                                    contractService.save(purchase);
                                 } else if (res instanceof Tenancy) {
                                     Tenancy tenancy = (Tenancy) res;
-                                    contractService.addContract(tenancy);
+                                    contractService.save(tenancy);
                                 } else {
-                                    contractService.addContract(res);
+                                    contractService.save(res);
                                 }
                                 tableView.refresh();
                             });

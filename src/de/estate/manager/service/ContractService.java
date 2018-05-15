@@ -82,4 +82,11 @@ public class ContractService {
         return contract;
     }
 
+    public void save(Contract contract){
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        session.save(contract);
+        session.getTransaction().commit();
+    }
+
 }

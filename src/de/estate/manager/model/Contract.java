@@ -6,7 +6,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "CONTRACTS")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Contract {
+public class Contract extends Object{
 
     @Id
     @GeneratedValue

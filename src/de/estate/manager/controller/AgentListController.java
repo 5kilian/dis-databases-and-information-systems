@@ -72,7 +72,7 @@ public class AgentListController {
                             Optional<Agent> result = dialog.showAndWait();
                             result.ifPresent(res -> {
                                 tableView.refresh();
-                                agentService.addAgent(agent);
+                                agentService.save(agent);
                             });
 
                         } catch (IOException e) {

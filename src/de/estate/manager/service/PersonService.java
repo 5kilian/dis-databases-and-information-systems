@@ -1,6 +1,7 @@
 package de.estate.manager.service;
 
 import de.estate.manager.model.Agent;
+import de.estate.manager.model.Estate;
 import de.estate.manager.model.Person;
 import de.estate.manager.util.SessionFactory_hib;
 import org.hibernate.Session;
@@ -54,4 +55,10 @@ public class PersonService {
         return person;
     }
 
+    public void save(Person person){
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        session.save(person);
+        session.getTransaction().commit();
+    }
 }
