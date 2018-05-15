@@ -1,9 +1,6 @@
 package de.estate.manager.service;
 
-import de.estate.manager.model.Apartment;
-import de.estate.manager.model.Contract;
-import de.estate.manager.model.Estate;
-import de.estate.manager.model.House;
+import de.estate.manager.model.*;
 import de.estate.manager.util.SessionFactory_hib;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -49,12 +46,12 @@ public class EstateService {
                 "(from Estate e, Apartment a where e.id = a.id)").list();
     }
 
-    public List<House> getAllHouses(){
+    public List<Estate> getAllHouses(){
         Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
         return session.createQuery("FROM House ").list();
     }
 
-    public List<Apartment> getAllApartments(){
+    public List<Estate> getAllApartments(){
         Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
         return session.createQuery("FROM Apartment ").list();
     }
@@ -74,8 +71,9 @@ public class EstateService {
         session.delete(estate);
     }
 
-    public void delete(Contract contract) {
-        delete(contract.getId());
+    public void delete(Estate estate) {
+        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
+        session.delete(estate);
     }
 
     public Estate get(int estateId) {
@@ -85,4 +83,3 @@ public class EstateService {
         return estate;
     }
 }
-    

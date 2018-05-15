@@ -49,7 +49,8 @@ public class AgentService {
     }
 
     public void delete(Agent agent) {
-        delete(agent.getId());
+        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
+        session.delete(agent);
     }
 
     public Agent validate(String name, String password) {

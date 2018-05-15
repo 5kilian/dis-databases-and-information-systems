@@ -1,8 +1,6 @@
 package de.estate.manager.service;
 
-import de.estate.manager.model.Contract;
-import de.estate.manager.model.Purchase;
-import de.estate.manager.model.Tenancy;
+import de.estate.manager.model.*;
 import de.estate.manager.util.SessionFactory_hib;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -73,7 +71,8 @@ public class ContractService {
     }
 
     public void delete(Contract contract) {
-        delete(contract.getId());
+        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
+        session.delete(contract);
     }
 
     public Contract get(int contractId) {

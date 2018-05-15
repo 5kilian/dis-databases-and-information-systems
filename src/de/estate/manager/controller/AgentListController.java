@@ -20,8 +20,6 @@ import java.util.Optional;
 
 public class AgentListController {
 
-
-    /*
     private AgentService agentService;
     @FXML
     private TableView<Agent> tableView;
@@ -74,7 +72,7 @@ public class AgentListController {
                             Optional<Agent> result = dialog.showAndWait();
                             result.ifPresent(res -> {
                                 tableView.refresh();
-                                agent.save();
+                                agentService.addAgent(agent);
                             });
 
                         } catch (IOException e) {
@@ -137,7 +135,7 @@ public class AgentListController {
             Optional<Agent> result = dialog.showAndWait();
             result.ifPresent(agent -> {
                 tableView.getItems().add(agent);
-                agent.save();
+                agentService.addAgent(agent);
             });
         } catch (IOException e) {
             e.printStackTrace();
@@ -154,5 +152,4 @@ public class AgentListController {
         }
     }
 
-    */
 }

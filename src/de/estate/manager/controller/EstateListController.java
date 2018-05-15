@@ -25,7 +25,7 @@ import java.util.Optional;
 
 public class EstateListController {
 
-    /*
+
     private EstateService estateService;
     private AgentService agentService;
     @FXML
@@ -144,12 +144,12 @@ public class EstateListController {
                                 tableView.refresh();
                                 if (res instanceof House) {
                                     House house = (House) res;
-                                    house.save();
+                                    estateService.addEstate(house);
                                 } else if (res instanceof Apartment) {
                                     Apartment apartment = (Apartment) res;
-                                    apartment.save();
+                                    estateService.addEstate(apartment);
                                 } else {
-                                    res.save();
+                                    estateService.addEstate(res);
                                 }
                             });
                         } catch (IOException e) {
@@ -217,12 +217,12 @@ public class EstateListController {
                     tableView.getItems().add(estate);
                     if (estate instanceof House) {
                         House house = (House) estate;
-                        house.save();
+                        estateService.addEstate(house);
                     } else if (estate instanceof Apartment) {
                         Apartment apartment = (Apartment) estate;
-                        apartment.save();
+                        estateService.addEstate(apartment);
                     } else {
-                        estate.save();
+                        estateService.addEstate(estate);
                     }
                 });
             } catch (IOException e) {
@@ -290,7 +290,7 @@ public class EstateListController {
         estate.setCity(cityField.getText());
         estate.setArea(Integer.valueOf(areaField.getText()));
         estate.setZip(Integer.valueOf(zipField.getText()));
-        estate.setAgent(Agent.load(1));
+        estate.setAgent(agentService.get(1));
 
         TabPane typePane = (TabPane) pane.lookup("#typePane");
 
@@ -323,5 +323,5 @@ public class EstateListController {
                 return estate;
         }
     }
-    */
+
 }

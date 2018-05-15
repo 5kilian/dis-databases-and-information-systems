@@ -4,6 +4,7 @@ package de.estate.manager.controller;
 import de.estate.manager.model.*;
 import de.estate.manager.service.ContractService;
 import de.estate.manager.service.EstateService;
+import de.estate.manager.service.PersonService;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,9 +27,9 @@ import java.util.Optional;
 
 public class ContractListController {
 
-    /*
     private ContractService contractService;
     private EstateService estateService;
+    private PersonService personService;
 
     @FXML
     public TableColumn typeColumn;
@@ -48,6 +49,7 @@ public class ContractListController {
     public ContractListController() {
         contractService = new ContractService();
         estateService = new EstateService();
+        personService = new PersonService();
     }
 
     @FXML
@@ -167,7 +169,7 @@ public class ContractListController {
 
                                 typePane.getSelectionModel().select(1);
 
-                                ObservableList<Estate> houseList = FXCollections.observableArrayList(estateService.getHouses());
+                                ObservableList<Estate> houseList = FXCollections.observableArrayList(estateService.getAllHouses());
                                 choiceBox.setItems(houseList);
                             } else if (contract instanceof Tenancy) {
                                 TextField startDateField = (TextField) pane.lookup("#startDateField");
@@ -180,7 +182,7 @@ public class ContractListController {
                                 additionalCostField.setText(String.valueOf(tenancy.getCost()));
                                 typePane.getSelectionModel().select(0);
 
-                                ObservableList<Estate> apartmentList = FXCollections.observableArrayList(estateService.getApartments());
+                                ObservableList<Estate> apartmentList = FXCollections.observableArrayList(estateService.getAllApartments());
                                 choiceBox.setItems(apartmentList);
                             }
 
@@ -197,12 +199,12 @@ public class ContractListController {
                             result.ifPresent(res -> {
                                 if (res instanceof Purchase) {
                                     Purchase purchase = (Purchase) res;
-                                    purchase.save();
+                                    contractService.addContract(purchase);
                                 } else if (res instanceof Tenancy) {
                                     Tenancy tenancy = (Tenancy) res;
-                                    tenancy.save();
+                                    contractService.addContract(tenancy);
                                 } else {
-                                    res.save();
+                                    contractService.addContract(res);
                                 }
                                 tableView.refresh();
                             });
@@ -250,8 +252,8 @@ public class ContractListController {
                     dialog.getDialogPane().getButtonTypes().filtered(buttonType -> buttonType.getText().equals("Save")).get(0)
             ).setDisable(true);
             ChoiceBox choiceBox = (ChoiceBox) dialog.getDialogPane().lookup("#choiceBox");
-            List<Estate> houses = estateService.getHouses();
-            List<Estate> apartments = estateService.getApartments();
+            List<Estate> houses = estateService.getAllHouses();
+            List<Estate> apartments = estateService.getAllApartments();
             choiceBox.setItems(FXCollections.observableArrayList(houses));
             TabPane tabPane = (TabPane) dialog.getDialogPane().lookup("#typePane");
             tabPane.getSelectionModel().selectedItemProperty().addListener((observableValue, oldTab, newTab) -> {
@@ -276,12 +278,12 @@ public class ContractListController {
                 tableView.getItems().add(contract);
                 if (contract instanceof Purchase) {
                     Purchase purchase = (Purchase) contract;
-                    purchase.save();
+                    contractService.addContract(purchase);
                 } else if (contract instanceof Tenancy) {
                     Tenancy tenancy = (Tenancy) contract;
-                    tenancy.save();
+                    contractService.addContract(tenancy);
                 } else {
-                    contract.save();
+                    contractService.addContract(contract);
                 }
             });
         } catch (IOException e) {
@@ -313,7 +315,7 @@ public class ContractListController {
             person.setFirstName(fistnameField.getText());
             person.setName(nameField.getText());
             person.setAddress(addressField.getText());
-            person.save();
+            personService.addPerson(person);
         }
 
         Contract contract = new Contract();
@@ -354,6 +356,6 @@ public class ContractListController {
         }
     }
 
-    */
+
 }
 
