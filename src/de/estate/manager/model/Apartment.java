@@ -21,8 +21,7 @@ public class Apartment extends Estate {
     @Column(columnDefinition = "SMALLINT")
     private boolean kitchen;
 
-    @OneToOne
-    @JoinColumn(name = "id")
+    @OneToOne(mappedBy = "apartment")
     private Tenancy tenancy;
 
     public Apartment() {

@@ -12,7 +12,8 @@ public class Purchase extends Contract {
     @Column(columnDefinition = "INT")
     private int rate;
 
-    @OneToOne(mappedBy = "purchase")
+    @OneToOne
+    @JoinColumn(name = "house")
     private House house;
 
     public Purchase() {

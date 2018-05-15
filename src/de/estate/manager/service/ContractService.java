@@ -1,13 +1,12 @@
 package de.estate.manager.service;
 
-import de.estate.manager.model.*;
+import de.estate.manager.model.Contract;
 import de.estate.manager.util.SessionFactory_hib;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class ContractService {
 
@@ -17,8 +16,6 @@ public class ContractService {
         sessionFactory = SessionFactory_hib.getSessionFactory();
     }
 
-
-    // geht das so mit Object? :D
     public List getAll(){
 
         List list = new ArrayList();
@@ -37,22 +34,31 @@ public class ContractService {
         return list;
     }
 
-    public List getAllContracts(){
-        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
-        return session.createQuery("FROM Contract c where c.id not in " +
-                "(from Contract c, Purchase p where c.id = p.id) " +
-                "and c.id not in " +
-                "(from Contract c, Tenancy t where c.id = t.id)").list();
+    public List getAllContracts() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        List contracts = session.createQuery("FROM Contract c WHERE c.id NOT IN " +
+                "(SELECT c.id FROM Contract c, Purchase p WHERE c.id = p.id) " +
+                "AND c.id NOT IN " +
+                "(SELECT c.id FROM Contract c, Tenancy t WHERE c.id = t.id)").list();
+        session.getTransaction().commit();
+        return contracts;
     }
 
-    public List getAllPurchases(){
-        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
-        return session.createQuery("FROM Purchase").list();
+    public List getAllPurchases() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        List purchases = session.createQuery("FROM Purchase").list();
+        session.getTransaction().commit();
+        return purchases;
     }
 
-    public List getAllTenacies(){
-        Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
-        return session.createQuery("FROM Tenancy ").list();
+    public List getAllTenacies() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        List tenancies = session.createQuery("FROM Tenancy ").list();
+        session.getTransaction().commit();
+        return tenancies;
     }
 
     public Integer addContract(Contract contract) {
@@ -66,18 +72,20 @@ public class ContractService {
 
     public void delete(int id){
         Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
-        Contract contract = (Contract) session.get(Contract.class, id);
+        Contract contract = session.get(Contract.class, id);
         session.delete(contract);
+        session.getTransaction().commit();
     }
 
     public void delete(Contract contract) {
         Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
         session.delete(contract);
+        session.getTransaction().commit();
     }
 
     public Contract get(int contractId) {
         Session session = sessionFactory.getCurrentSession(); session.beginTransaction();
-        Contract contract = (Contract) session.get(Contract.class, contractId);
+        Contract contract = session.get(Contract.class, contractId);
         session.getTransaction().commit();
         return contract;
     }

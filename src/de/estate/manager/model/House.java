@@ -15,8 +15,7 @@ public class House extends Estate {
     @Column(columnDefinition = "SMALLINT")
     private boolean garden;
 
-    @OneToOne
-    @JoinColumn(name = "id")
+    @OneToOne(mappedBy = "house")
     private Purchase purchase;
 
     public House() {

@@ -16,7 +16,8 @@ public class Tenancy extends Contract {
     @Column(columnDefinition = "DOUBLE")
     private double cost;
 
-    @OneToOne(mappedBy = "tenancy")
+    @OneToOne
+    @JoinColumn(name = "apartment")
     private Apartment apartment;
 
     public Date getStart() {
