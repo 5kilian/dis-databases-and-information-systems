@@ -7,6 +7,12 @@ db2 connect to VSISP user vsisp42
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -   YPzU5ED6
+- 134.100.11.70.35995.18053012312
+- 7245
+
+```
+db2 ATTACH TO vsisls4 USER vsisp42
+```
 
 4.1.
 ----
@@ -38,9 +44,16 @@ db2 "SELECT * FROM OPK"
 db2 "INSERT INTO OPK VALUES(5, 'Juicy')"
 db2 commit
 db2 "SELECT * FROM OPK"
+
+db2 get snapshot for locks for application agentid 7245
+ 
+db2 commit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In CS Ist jede Reihe einzelnd gesperrt, zb. die vom OPK.ID = 2
+
+1 Lock
+Modes: IS
 
 ### d)
 
@@ -51,6 +64,9 @@ db2 "INSERT INTO OPK VALUES(6, 'orange')"
 db2 commit
 db2 "SELECT * FROM OPK"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+8 Locks
+Modes: IS, S, NS
 
 4.2
 ---
@@ -96,7 +112,7 @@ db2 "SELECT * FROM OPK WHERE ID > 2"
 Zweite Verbindung:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-db2 "INSERT INTO OPK VALUES(55,'SwagBoyCry')"
+db2 "INSERT INTO OPK VALUES(55, 'SwagBoyCry')"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 wartet bis die erste commited
@@ -114,13 +130,13 @@ Zweite Verbindung kann inserten
 Erste Verbindung:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-db2 "SELECT * FROM OPK WHERE ID > 1"
+db2 "SELECT * FROM OPK WHERE ID = 1"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Zweite Verbindung:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-db2 "UPDATE OPK SET SET NAME = "ChampagnePapi" WHERE ID = 3"
+db2 "UPDATE OPK SET NAME = 'ChampagnePapi' WHERE ID = 1"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 zweite Verbindung muss warten bis die erste commited, da RR die ganze Tabelle
@@ -173,12 +189,12 @@ zweite Verbindung:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 export DB2OPTIONS='+c'
-db2 SET ISOLATION = RR
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 erste Verbindung:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+db2 SET ISOLATION = RR
 db2 "SELECT * FROM OPK WHERE ID = 1"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -186,13 +202,13 @@ zweite Verbindung:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 db2 "SELECT * FROM OPK WHERE ID = 2"
-db2 "UPDATE OPK SET NAME = "SwagPapi" WHERE ID = 1"
+db2 "UPDATE OPK SET NAME = 'SwagPapi' WHERE ID = 1"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 erste Verbindung:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-db2 "UPDATE OPK SET NAME = "WineDaddy" WHERE ID = 2"
+db2 "UPDATE OPK SET NAME = 'WineDaddy' WHERE ID = 2"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Commite Verbindung 1 und 2:
@@ -235,9 +251,7 @@ db2 "UPDATE OPK SET SET NAME = "WineDaddy" WHERE ID = 2"
 
 Commite Verbindung 1 und 2:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-db2 commit
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+deadlock
 
 das erste update wird blockiert und ab dem zweiten gibts ein Deadlock, da die
 Verbindungen aufeinander warten.
