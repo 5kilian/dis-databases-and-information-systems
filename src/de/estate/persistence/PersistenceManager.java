@@ -4,6 +4,19 @@ public class PersistenceManager {
 
     private String buffer;
 
+    private static PersistenceManager instance = null;
+
+    private PersistenceManager() {
+
+    }
+
+    public static PersistenceManager getInstance() {
+        if (instance == null) {
+            instance = new PersistenceManager();
+        }
+        return instance;
+    }
+
     public PersistenceManager beginTransaction() {
 
         return this;
