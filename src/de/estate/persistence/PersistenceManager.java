@@ -1,8 +1,20 @@
 package de.estate.persistence;
 
+import de.estate.persistence.persistenceModels.Page;
+import de.estate.persistence.persistenceModels.TransIdHandler;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
 public class PersistenceManager {
 
-    private String buffer;
+    private List<Page> buffer;
+    private int lsn = 0;  // muss noch persistent gemacht werden?
+
+
+    private PageSaver pagesaver = new PageSaver();
+    private TransIdHandler transIdHandler = new TransIdHandler();
 
     private static PersistenceManager instance = null;
 
@@ -17,19 +29,35 @@ public class PersistenceManager {
         return instance;
     }
 
-    public PersistenceManager beginTransaction() {
-
-        return this;
+    public int beginTransaction() {
+        transIdHandler.getUniqueId();
     }
 
     public PersistenceManager commit(int taid) {
-
         return this;
     }
 
-    public PersistenceManager write(int taid, int pageid, String data) {
+    public void PersistenceManager write(int taid, int pageid, String data) {
 
-        return this;
+        for (Page p : buffer) {
+            if (p.pid == pageid){
+                buffer.remove(p);
+            }
+        }
+
+        Page page = new Page(pageid,lsn,data);
+        buffer.add(Page);
+
+        if (buffer.size()>5){
+            makeBufferPersistent();
+        }
+    }
+
+    private void makeBufferPersistent(){
+        for (Page p : buffer) {
+            pagesaver.savePage(p);
+        }
+        buffer.removeAll();
     }
 
 }

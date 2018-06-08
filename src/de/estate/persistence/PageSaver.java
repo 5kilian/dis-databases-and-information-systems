@@ -1,22 +1,23 @@
 package de.estate.persistence;
 
-import de.estate.persistence.persistenceModels.Log;
+import de.estate.persistence.persistenceModels.Page;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class Logger {
+public class PageSaver {
 
-    public void log(Log log) {
+    public void savePage(Page page) {
 
         try {
 
-            FileWriter fw = new FileWriter(
-                    String.format("./src/de/estate/persistence/persistenceModels/Logs/%s", Integer.toString(log.lsn)));
 
-            fw.write(String.format("%d,%d,%d,%s", log.lsn, log.tid, log.pid, log.redo));
+            FileWriter fw = new FileWriter(
+                    String.format("./src/de/estate/persistence/persistenceModels/Pages/%s", Integer.toString(page.pid)));
+
+            fw.write(String.format("%d,%d,%s", page.pid, page.lsn, page.data));
 
             fw.close();
 
@@ -26,17 +27,17 @@ public class Logger {
 
         }
 
-        System.out.println("wrote swag Log");
+        System.out.println("wrote swag Page");
 
     }
 
 
-    public Log getLog(int id) {
+    public Page getPage(int id) {
 
-        Log log = new Log();
+        Page page = new Page();
 
         try {
-            File file = new File(String.format("./src/de/estate/persistence/persistenceModels/Logs/%s", Integer.toString(id)));
+            File file = new File(String.format("./src/de/estate/persistence/persistenceModels/Pages/%s", Integer.toString(id)));
             FileReader reader = new FileReader(file);
 
             StringBuffer stringBuffer = new StringBuffer();
@@ -49,16 +50,14 @@ public class Logger {
             reader.close();
 
             String info = stringBuffer.toString();
-            log.lsn = Integer.parseInt(info.split(",")[0]);
-            log.tid = Integer.parseInt(info.split(",")[1]);
-            log.pid = Integer.parseInt(info.split(",")[2]);
-            log.redo = info.split(",")[3];
+            page.pid = Integer.parseInt(info.split(",")[0]);
+            page.lsn = Integer.parseInt(info.split(",")[1]);
+            page.data = info.split(",")[2];
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return log;
+        return page;
     }
 }
-
