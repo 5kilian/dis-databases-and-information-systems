@@ -3,23 +3,22 @@ package de.estate.persistence;
 import de.estate.persistence.persistenceModels.Page;
 import de.estate.persistence.persistenceModels.TransIdHandler;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class PersistenceManager {
 
-    private List<Page> buffer;
-    private int lsn = 0;  // muss noch persistent gemacht werden?
+    HashMap<Page, int> buffer = new HashMap<Page, int>();
+    private List<int> commitedTransactions;
+
+    private int lsn = 0;  // muss noch persistent gemacht werden
 
 
     private PageSaver pagesaver = new PageSaver();
-    private TransIdHandler transIdHandler = new TransIdHandler();
+    private TransIdHandler transIdHandler = new TransIdHandler(); // muss noch persistent gemacht werden
 
     private static PersistenceManager instance = null;
 
     private PersistenceManager() {
-
     }
 
     public static PersistenceManager getInstance() {
@@ -30,34 +29,40 @@ public class PersistenceManager {
     }
 
     public int beginTransaction() {
-        transIdHandler.getUniqueId();
+        return transIdHandler.getUniqueId();
     }
 
-    public PersistenceManager commit(int taid) {
-        return this;
+    public void commit(int taId) {
+        commitedTransactions.add(taId)
     }
 
-    public void PersistenceManager write(int taid, int pageid, String data) {
+    public void write(int taId, int pageid, String data) {
 
-        for (Page p : buffer) {
-            if (p.pid == pageid){
-                buffer.remove(p);
+        for (Map.Entry<Page, int> entry : buffer.entrySet()) {
+            Page page = entry.getKey();
+            int taId = entry.getValue();
+            if (page.pid == pageid) {
+                buffer.remove(page, taId);
             }
         }
 
-        Page page = new Page(pageid,lsn,data);
-        buffer.add(Page);
+        Page page = new Page(pageid, lsn, data);
+        buffer.put(page, taId);
 
-        if (buffer.size()>5){
+        if (buffer.size() > 5) {
             makeBufferPersistent();
         }
     }
 
-    private void makeBufferPersistent(){
-        for (Page p : buffer) {
-            pagesaver.savePage(p);
+    private void makeBufferPersistent() {
+        for (Map.Entry<Page, int> entry : buffer.entrySet()) {
+            Page page = entry.getKey();
+            int taId = entry.getValue();
+            if (commitedTransactions.contains(taId)) {
+                pagesaver.savePage(page);
+                buffer.remove(page, taId);
+                commitedTransactions.remove(taId);
+            }
         }
-        buffer.removeAll();
     }
-
 }
