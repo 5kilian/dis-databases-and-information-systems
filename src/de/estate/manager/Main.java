@@ -1,6 +1,7 @@
 package de.estate.manager;
 
 import de.estate.persistence.PageSaver;
+import de.estate.persistence.RecoveryTool;
 import de.estate.persistence.persistenceModels.Log;
 import de.estate.persistence.Logger;
 import de.estate.persistence.persistenceModels.Page;
@@ -26,11 +27,18 @@ public class Main {
     }
 */
     public static void main(String[] args) {
-
+/*
         Log log = new Log(4,4,4, "hi");
         Logger logger = new Logger();
         System.out.println(logger.getAllLogs());
 
-    }
 
+*/
+        RecoveryTool rT = new RecoveryTool();
+        rT.recover();
+
+
+
+
+    }
 }

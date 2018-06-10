@@ -11,8 +11,12 @@ public class ClientCreator {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
         }
+        System.out.println("Interrupting Clients now");
         c1.interrupt();
-        c2.interrupt();
+       c2.interrupt();
+
+        RecoveryTool rT = new RecoveryTool();
+        rT.recover();
 
     }
 }

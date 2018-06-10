@@ -60,20 +60,19 @@ public class Logger {
             }
             reader.close();
 
-            String info = stringBuffer.toString();
+            String[] info = stringBuffer.toString().split(",");
 
-            for (int i = 0; i + 1 < info.length() -  (int) Math.floor(info.length()/2) ; i = i + 4) {
+            for (int i = 0; i + 1 < info.length ; i = i + 4) {
+
                 Log log = new Log();
 
-
-                log.lsn = Integer.parseInt(info.split(",")[i + 0]);
-                log.tid = Integer.parseInt(info.split(",")[i + 1]);
-                log.pid = Integer.parseInt(info.split(",")[i + 2]);
-                log.redo = info.split(",")[i + 3];
+                log.lsn = Integer.parseInt(info[i]);
+                log.tid = Integer.parseInt(info[i + 1]);
+                log.pid = Integer.parseInt(info[i + 2]);
+                log.redo = info[i + 3];
 
                 allLogs.add(log);
             }
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,9 +81,42 @@ public class Logger {
         return allLogs;
     }
 
-    public int getLastLsn(){
-        List<Log> lst = this.getAllLogs();
-        return lst.get(lst.size() - 1).lsn;
+    public int getLastLsn() {
+
+        int lastLsn = 0;
+
+        try {
+
+            FileReader reader;
+            String path = "./src/de/estate/persistence/persistenceModels/Logs/Log";
+            File userDataFile = new File(path);
+
+
+            if (userDataFile.exists()) {
+                reader = new FileReader(userDataFile);
+
+                StringBuffer stringBuffer = new StringBuffer();
+
+                int numCharsRead;
+                char[] charArray = new char[1024];
+                while ((numCharsRead = reader.read(charArray)) > 0) {
+                    stringBuffer.append(charArray, 0, numCharsRead);
+                }
+                reader.close();
+
+                String[] info = stringBuffer.toString().split(",");
+                lastLsn = Integer.parseInt(info[info.length - 4]);
+            } else {
+                return 0;
+            }
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+
+        }
+
+        return lastLsn;
+
     }
 
 }
