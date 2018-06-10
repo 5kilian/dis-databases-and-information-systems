@@ -7,14 +7,15 @@ import java.util.*;
 
 public class PersistenceManager {
 
-    HashMap<Page, int> buffer = new HashMap<Page, int>();
-    private List<int> commitedTransactions;
-
-    private int lsn = 0;  // muss noch persistent gemacht werden
+    HashMap<Page, Integer> buffer = new HashMap<Page, Integer>();
+    private List<Integer> commitedTransactions;
 
 
     private PageSaver pagesaver = new PageSaver();
     private TransIdHandler transIdHandler = new TransIdHandler(); // muss noch persistent gemacht werden
+    private Logger logger = new Logger();
+
+    private int lsn = logger.getLastLsn() +10 ;
 
     private static PersistenceManager instance = null;
 
@@ -33,21 +34,23 @@ public class PersistenceManager {
     }
 
     public void commit(int taId) {
-        commitedTransactions.add(taId)
+        commitedTransactions.add(taId);
     }
 
     public void write(int taId, int pageid, String data) {
 
-        for (Map.Entry<Page, int> entry : buffer.entrySet()) {
+        for (Map.Entry<Page, Integer> entry : buffer.entrySet()) {
             Page page = entry.getKey();
-            int taId = entry.getValue();
+            Integer  taIds = entry.getValue();
             if (page.pid == pageid) {
-                buffer.remove(page, taId);
+                buffer.remove(page, taIds);
             }
         }
 
         Page page = new Page(pageid, lsn, data);
         buffer.put(page, taId);
+
+        lsn += 10;
 
         if (buffer.size() > 5) {
             makeBufferPersistent();
@@ -55,7 +58,7 @@ public class PersistenceManager {
     }
 
     private void makeBufferPersistent() {
-        for (Map.Entry<Page, int> entry : buffer.entrySet()) {
+        for (Map.Entry<Page, Integer> entry : buffer.entrySet()) {
             Page page = entry.getKey();
             int taId = entry.getValue();
             if (commitedTransactions.contains(taId)) {

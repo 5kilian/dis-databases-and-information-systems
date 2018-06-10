@@ -6,6 +6,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Logger {
 
@@ -13,10 +16,18 @@ public class Logger {
 
         try {
 
-            FileWriter fw = new FileWriter(
-                    String.format("./src/de/estate/persistence/persistenceModels/Logs/%s", Integer.toString(log.lsn)));
+            String path = "./src/de/estate/persistence/persistenceModels/Logs/Log";
+            FileWriter fw;
+            File userDataFile = new File(path);
 
-            fw.write(String.format("%d,%d,%d,%s", log.lsn, log.tid, log.pid, log.redo));
+            if (userDataFile.exists()) {
+                fw = new FileWriter(path, true);
+                fw.write(String.format(",%d,%d,%d,%s", log.lsn, log.tid, log.pid, log.redo));
+
+            } else {
+                fw = new FileWriter(path, true);
+                fw.write(String.format("%d,%d,%d,%s", log.lsn, log.tid, log.pid, log.redo));
+            }
 
             fw.close();
 
@@ -31,12 +42,13 @@ public class Logger {
     }
 
 
-    public Log getLog(int id) {
+    public List<Log> getAllLogs() {
 
-        Log log = new Log();
+        List<Log> allLogs = new ArrayList<Log>();
 
         try {
-            File file = new File(String.format("./src/de/estate/persistence/persistenceModels/Logs/%s", Integer.toString(id)));
+
+            File file = new File("./src/de/estate/persistence/persistenceModels/Logs/Log");
             FileReader reader = new FileReader(file);
 
             StringBuffer stringBuffer = new StringBuffer();
@@ -49,16 +61,31 @@ public class Logger {
             reader.close();
 
             String info = stringBuffer.toString();
-            log.lsn = Integer.parseInt(info.split(",")[0]);
-            log.tid = Integer.parseInt(info.split(",")[1]);
-            log.pid = Integer.parseInt(info.split(",")[2]);
-            log.redo = info.split(",")[3];
+
+            for (int i = 0; i + 1 < info.length() -  (int) Math.floor(info.length()/2) ; i = i + 4) {
+                Log log = new Log();
+
+
+                log.lsn = Integer.parseInt(info.split(",")[i + 0]);
+                log.tid = Integer.parseInt(info.split(",")[i + 1]);
+                log.pid = Integer.parseInt(info.split(",")[i + 2]);
+                log.redo = info.split(",")[i + 3];
+
+                allLogs.add(log);
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return log;
+        return allLogs;
     }
+
+    public int getLastLsn(){
+        List<Log> lst = this.getAllLogs();
+        return lst.get(lst.size() - 1).lsn;
+    }
+
 }
 

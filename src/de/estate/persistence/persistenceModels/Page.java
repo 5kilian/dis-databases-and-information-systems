@@ -15,17 +15,8 @@ public class Page {
         this.lsn = lsn;
         this.data = data;
     }
+
     public Page() {
-    }
-
-    public static void PagesToDB(List<Page> lst){
-
-        for (Page:lst
-             ) {
-
-
-
-        }
     }
 
 

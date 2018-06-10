@@ -5,6 +5,8 @@ import de.estate.persistence.persistenceModels.Log;
 import de.estate.persistence.Logger;
 import de.estate.persistence.persistenceModels.Page;
 
+import java.io.FileWriter;
+
 public class Main {
 
     /*
@@ -25,18 +27,9 @@ public class Main {
 */
     public static void main(String[] args) {
 
-        /*
-        Log log = new Log(1,1,1, "hey");
-
+        Log log = new Log(4,4,4, "hi");
         Logger logger = new Logger();
-         System.out.println(logger.getLog(1));
-        */
-
-        Page page = new Page(1, 1, "hey");
-        PageSaver ps = new PageSaver();
-        ps.savePage(page);
-        System.out.println(ps.getPage(1));
-
+        System.out.println(logger.getAllLogs());
 
     }
 

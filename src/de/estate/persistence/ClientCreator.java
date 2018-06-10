@@ -3,8 +3,8 @@ package de.estate.persistence;
 public class ClientCreator {
 
     public static void main(String[] args) {
-        Client c1 = new Client();
-        Client c2 = new Client();
+        Client c1 = new Client(1);
+        Client c2 = new Client(10);
         c1.start();
         c2.start();
         try {
@@ -14,5 +14,5 @@ public class ClientCreator {
         c1.interrupt();
         c2.interrupt();
 
-
     }
+}

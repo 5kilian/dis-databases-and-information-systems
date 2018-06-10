@@ -12,10 +12,8 @@ public class PageSaver {
     public void savePage(Page page) {
 
         try {
-
-
             FileWriter fw = new FileWriter(
-                    String.format("./src/de/estate/persistence/persistenceModels/Pages/%s", Integer.toString(page.pid)));
+                    String.format("./src/de/estate/persistence/persistenceModels/Pages/%s", Integer.toString(page.pid)),false);
 
             fw.write(String.format("%d,%d,%s", page.pid, page.lsn, page.data));
 
