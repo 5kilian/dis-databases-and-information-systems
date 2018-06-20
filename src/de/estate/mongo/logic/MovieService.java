@@ -218,10 +218,10 @@ public class MovieService extends MovieServiceBase {
 	 * @return the DBCursor for the query
 	 */
 	public DBCursor getTaggedTweets() {
-		//TODO : implement
-		DBObject projection = null;
-		DBObject query = null;
-		DBObject sort = null;
+		//TODO: check
+		DBObject projection = new BasicDBObject("text",1).append("movie",1).append("user.name", 1);
+		DBObject query = new BasicDBObject("coordinates", new BasicDBObject("$exists", true));
+		DBObject sort = new BasicDBObject("$natural", -1);
 		DBCursor results = tweets.find(query, projection).sort(sort);
 		return results;
 	}
@@ -308,8 +308,8 @@ public class MovieService extends MovieServiceBase {
 	 * @return the DBCursor for the query
 	 */
 	public DBCursor getByTweetsKeywordRegex(String keyword, int limit) {
-		//TODO : implement
-		DBCursor result = null; // movies.find(new BasicDBObject("$or"));
+		//TODO : check
+		DBCursor result = tweets.find(new BasicDBObject("text", new BasicDBObject("$regex", ".*" + keyword + ".*")));
 		return result;
 	}
 
@@ -360,7 +360,7 @@ public class MovieService extends MovieServiceBase {
 	 */
 	public DBCursor getNewestTweets(int limit) {
 		// TODO: check
-		return tweets.find().sort(new BasicDBObject("$natural", 1));
+		return tweets.find().sort(new BasicDBObject("$natural", -1));
 	}
 
 	/**
@@ -434,10 +434,11 @@ public class MovieService extends MovieServiceBase {
 	 * @param contentType
 	 */
 	public void saveFile(String name, InputStream inputStream, String contentType) {
-		GridFSInputFile gFile = null;
+		GridFSInputFile gFile = fs.createFile(inputStream, name);
 		//Remove old versions
 		fs.remove(name);
-		//TODO: implement
+		gFile.setContentType(contentType);
+		gFile.save();
 	}
 
 	// Given Helper Functions:

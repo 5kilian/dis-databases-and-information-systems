@@ -70,7 +70,6 @@ public class PersistenceManager {
                 }
             }
         }
-
     }
 
     private synchronized void makeBufferPersistent() {
