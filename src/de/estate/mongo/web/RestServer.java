@@ -49,7 +49,7 @@ public class RestServer {
 		ResourceHandler resource_handler = new ResourceHandler();
 		resource_handler.setDirectoriesListed(true);
 		resource_handler.setWelcomeFiles(new String[] { "map.html" });
-		resource_handler.setBaseResource(Resource.newClassPathResource("/web"));
+		resource_handler.setBaseResource(Resource.newClassPathResource("/de/estate/resources/mongo"));
 
 		// Define Resources and Actions
 		ContextHandler tweetedMovies = handle("/movie_tweets", new MongoHandler() {

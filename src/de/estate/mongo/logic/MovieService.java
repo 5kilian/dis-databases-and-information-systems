@@ -114,7 +114,9 @@ public class MovieService extends MovieServiceBase {
 	 */
 	public DBCursor getBestMovies(int minVotes, double minRating, int limit) {
 		return movies.find(new BasicDBObject("votes", new BasicDBObject("$gte", minVotes))
-				.append("rating", new BasicDBObject("$gte", minRating))).limit(limit);
+				.append("rating", new BasicDBObject("$gte", minRating)))
+				.sort(new BasicDBObject("$natural", 1))
+				.limit(limit);
 	}
 
 	/**
@@ -337,17 +339,19 @@ public class MovieService extends MovieServiceBase {
 		// Create a text index on the "text" property of tweets
 		tweets.ensureIndex(new BasicDBObject("text", "text").append("user.name", "text"));
 
-		DBObject search = new BasicDBObject();
-		search.put("text", "tweets");
-		search.put("search", query);
-		CommandResult commandResult = db.command(search);
-		BasicDBList results = (BasicDBList) commandResult.get("results");
-		List<DBObject> found = new LinkedList<DBObject>();
-		for (Object o : results) {
-			DBObject dbo = (DBObject) ((DBObject) o).get("obj");
-			found.add(dbo);
-		}
-		return found;
+		return tweets.find(new BasicDBObject("text", Pattern.compile(".*" + query + ".*"))).toArray();
+
+//		DBObject search = new BasicDBObject();
+//		search.put("text", "tweets");
+//		search.put("search", query);
+//		CommandResult commandResult = db.command(search);
+//		BasicDBList results = (BasicDBList) commandResult.get("results");
+//		List<DBObject> found = new LinkedList<DBObject>();
+//		for (Object o : results) {
+//			DBObject dbo = (DBObject) ((DBObject) o).get("obj");
+//			found.add(dbo);
+//		}
+//		return found;
 	}
 
 	/**
