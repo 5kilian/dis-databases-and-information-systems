@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        " http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="connection.driver_class">com.ibm.db2.jcc.DB2Driver</property>
+		<property name="connection.url">jdbc:db2://vsisls4.informatik.uni-hamburg.de:50001/VSISP</property>
+		<property name="connection.username">vsisp42</property>
+		<property name="connection.password">YPzU5ED6</property>
+    <property name="connection.autocommit">true</property>
+
+		<property name="dialect">org.hibernate.dialect.DB2Dialect</property>
+		<property name="current_session_context_class">thread</property>
+		<!--property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property -->
+		<property name="show_sql">true</property>
+
+		<!-- Drop and re-create the database schema on startup (none | validate | update | create | create-drop) -->
+		<!-- property name="hbm2ddl.auto">create</property -->
+
+
+		<mapping class="de.estate.warehouse.model.Article" />
+		<mapping class="de.estate.warehouse.model.Land" />
+		<mapping class="de.estate.warehouse.model.Productcategory" />
+		<mapping class="de.estate.warehouse.model.Productfamily" />
+		<mapping class="de.estate.warehouse.model.Productgroup" />
+		<mapping class="de.estate.warehouse.model.Region" />
+		<mapping class="de.estate.warehouse.model.Shop" />
+		<mapping class="de.estate.warehouse.model.Stadt" />
+		<mapping class="de.estate.warehouse.model.CsvProduct" />
+	</session-factory>
+</hibernate-configuration>

@@ -14,11 +14,11 @@ public class CsvProduct {
 
     @ManyToOne
     @JoinColumn(name="SHOPID")
-    private String shop;
+    private Shop shop;
 
     @ManyToOne
     @JoinColumn(name="ARTICLEID")
-    private String article;
+    private Article article;
 
     private int sales;
 
@@ -32,19 +32,19 @@ public class CsvProduct {
         this.date = date;
     }
 
-    public String getShop() {
+    public Shop getShop() {
         return shop;
     }
 
-    public void setShop(String shop) {
+    public void setShop(Shop shop) {
         this.shop = shop;
     }
 
-    public String getArticle() {
+    public Article getArticle() {
         return article;
     }
 
-    public void setArticle(String article) {
+    public void setArticle(Article article) {
         this.article = article;
     }
 

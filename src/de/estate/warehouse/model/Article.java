@@ -14,7 +14,7 @@ public class Article {
 
     @ManyToOne
     @JoinColumn(name="PRODUCTGROUPID", nullable=false)
-    private int productgroupid;
+    private Productgroup productgroup;
 
     @Column(columnDefinition = "VARCHAR(255)")
     private String name;
@@ -28,14 +28,6 @@ public class Article {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getProductgroupid() {
-        return productgroupid;
-    }
-
-    public void setProductgroupid(int productgroupid) {
-        this.productgroupid = productgroupid;
     }
 
     public String getName() {
@@ -52,5 +44,13 @@ public class Article {
 
     public void setPreis(double preis) {
         this.preis = preis;
+    }
+
+    public Productgroup getProductgroup() {
+        return productgroup;
+    }
+
+    public void setProductgroup(Productgroup productgroup) {
+        this.productgroup = productgroup;
     }
 }
