@@ -1,4 +1,4 @@
-package de.estate.resources.warehouse.model;
+package de.estate.warehouse.model;
 
 import javax.persistence.*;
 

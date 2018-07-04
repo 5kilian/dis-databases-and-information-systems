@@ -1,19 +1,19 @@
-package de.estate.resources.warehouse.model;
+package de.estate.warehouse.model;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "PRODUCTGROUPID")
-public class Productgroup {
+@Table(name = "PRODUCTFAMILYID")
+public class Productfamily {
 
     @Id
     @GeneratedValue
-    @Column(name = "PRODUCTGROUPID")
+    @Column(name = "PRODUCTFAMILYID")
     private int id = -1;
 
     @ManyToOne
-    @JoinColumn(name="PRODUCTFAMILYID", nullable=false)
-    private int productfamilyId;
+    @JoinColumn(name="PRODUCTCATEGORYID", nullable=false)
+    private int productgroupid;
 
     @Column(columnDefinition = "VARCHAR(255)")
     private String name;
@@ -27,12 +27,12 @@ public class Productgroup {
         this.id = id;
     }
 
-    public int getProductfamilyId() {
-        return productfamilyId;
+    public int getProductgroupid() {
+        return productgroupid;
     }
 
-    public void setProductfamilyId(int productfamilyId) {
-        this.productfamilyId = productfamilyId;
+    public void setProductgroupid(int productgroupid) {
+        this.productgroupid = productgroupid;
     }
 
     public String getName() {

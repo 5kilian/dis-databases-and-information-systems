@@ -1,19 +1,17 @@
-package de.estate.resources.warehouse.model;
+package de.estate.warehouse.model;
+
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "STADTID")
-public class Stadt {
+@Table(name = "PRODUCTCATEGORYID")
+public class Productcategory {
+
 
     @Id
     @GeneratedValue
-    @Column(name = "STADID")
+    @Column(name = "PRODUCTCATEGORYID")
     private int id = -1;
-
-    @ManyToOne
-    @JoinColumn(name="REGIONID", nullable=false)
-    private int regionId;
 
     @Column(columnDefinition = "VARCHAR(255)")
     private String name;
@@ -26,14 +24,6 @@ public class Stadt {
         this.id = id;
     }
 
-    public int getRegionId() {
-        return regionId;
-    }
-
-    public void setRegionId(int regionId) {
-        this.regionId = regionId;
-    }
-
     public String getName() {
         return name;
     }
@@ -41,7 +31,4 @@ public class Stadt {
     public void setName(String name) {
         this.name = name;
     }
-
-
-
 }
