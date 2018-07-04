@@ -1,0 +1,169 @@
+-- this script sets of the DB2 database, i.e. creates the tables and inserts data
+
+CREATE TABLE LandID (
+  LandID int NOT NULL,
+  Name varchar(255) NOT NULL,
+  PRIMARY KEY (LandID)
+);
+
+CREATE TABLE RegionID (
+  RegionID int NOT NULL ,
+  LandID int NOT NULL,
+  Name varchar(255) NOT NULL,
+  PRIMARY KEY (RegionID)
+);
+
+CREATE TABLE StadtID (
+  StadtID int NOT NULL ,
+  RegionID int NOT NULL,
+  Name varchar(255) NOT NULL,
+  PRIMARY KEY (StadtID)
+);
+
+CREATE TABLE ShopID (
+  ShopID int NOT NULL ,
+  StadtID int NOT NULL,
+  Name varchar(255) NOT NULL,
+  PRIMARY KEY (ShopID)
+);
+
+CREATE TABLE ArticleID (
+  ArticleID int NOT NULL ,
+  ProductGroupID int NOT NULL,
+  Name varchar(255) NOT NULL,
+  Preis double NOT NULL,
+  PRIMARY KEY (ArticleID)
+);
+
+CREATE TABLE ProductGroupID (
+  ProductGroupID int NOT NULL ,
+  ProductFamilyID int NOT NULL,
+  Name varchar(255) NOT NULL,
+  PRIMARY KEY (ProductGroupID)
+);
+
+CREATE TABLE ProductFamilyID (
+  ProductFamilyID int NOT NULL ,
+  ProductCategoryID int NOT NULL,
+  Name varchar(255) NOT NULL,
+  PRIMARY KEY (ProductFamilyID)
+);
+
+CREATE TABLE ProductCategoryID (
+  ProductCategoryID int NOT NULL ,
+  Name varchar(255) NOT NULL,
+  PRIMARY KEY (ProductCategoryID)
+);
+
+ALTER TABLE ShopID ADD CONSTRAINT ShopID_fk_1 FOREIGN KEY (StadtID) REFERENCES StadtID (StadtID);
+ALTER TABLE StadtID ADD CONSTRAINT StadtID_fk_1 FOREIGN KEY (RegionID) REFERENCES RegionID (RegionID);
+ALTER TABLE RegionID ADD CONSTRAINT RegionID_fk_1 FOREIGN KEY (LandID) REFERENCES LandID (LandID);
+
+ALTER TABLE ArticleID ADD CONSTRAINT ArticleID_fk_1 FOREIGN KEY (ProductGroupID) REFERENCES ProductGroupID (ProductGroupID);
+ALTER TABLE ProductGroupID ADD CONSTRAINT ProductGroupID_fk_1 FOREIGN KEY (ProductFamilyID) REFERENCES ProductFamilyID (ProductFamilyID);
+ALTER TABLE ProductFamilyID ADD CONSTRAINT ProductFamilyID_fk_1 FOREIGN KEY (ProductCategoryID) REFERENCES ProductCategoryID (ProductCategoryID);
+
+
+
+INSERT INTO LandID (LandID, Name) VALUES (1, 'Deutschland');
+
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (1, 1, 'Baden-Württemberg');
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (2, 1, 'Bayern');
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (3, 1, 'Berlin');
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (4, 1, 'Brandenburg');
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (5, 1, 'Bremen');
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (6, 1, 'Hamburg');
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (7, 1, 'Hessen');
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (8, 1, 'Mecklenburg-Vorpommern');
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (9, 1, 'Niedersachsen');
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (10, 1, 'Nordrhein-Westfalen');
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (11, 1, 'Rheinland-Pfalz');
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (12, 1, 'Saarland');
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (13, 1, 'Sachsen');
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (14, 1, 'Sachsen-Anhalt');
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (15, 1, 'Schleswig-Holstein');
+INSERT INTO RegionID (RegionID, LandID, Name) VALUES (16, 1, 'Thüringen');
+
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (1, 1, 'Stuttgart');
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (2, 2, 'München');
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (3, 3, 'Berlin');
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (4, 4, 'Potsdam');
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (5, 5, 'Bremen');
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (6, 6, 'Hamburg');
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (7, 7, 'Wiesbaden');
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (8, 8, 'Schwerin');
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (9, 9, 'Hannover');
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (10, 10, 'Düsseldorf');
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (11, 11, 'Mainz');
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (12, 12, 'Saarbrücken');
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (13, 13, 'Dresden');
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (14, 14, 'Magdeburg');
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (15, 15, 'Kiel');
+INSERT INTO StadtID (StadtID, RegionID, Name) VALUES (16, 16, 'Erfurt');
+
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (1, 1, 'Superstore Stuttgart');
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (2, 2, 'Superstore München');
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (3, 3, 'Superstore Berlin');
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (4, 4, 'Superstore Potsdam');
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (5, 5, 'Superstore Bremen');
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (6, 6, 'Superstore Hamburg');
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (7, 7, 'Superstore Wiesbaden');
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (8, 8, 'Superstore Schwerin');
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (9, 9, 'Superstore Hannover');
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (10, 10, 'Superstore Düsseldorf');
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (11, 11, 'Superstore Mainz');
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (12, 12, 'Superstore Saarbrücken');
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (13, 13, 'Superstore Dresden');
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (14, 14, 'Superstore Magdeburg');
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (15, 15, 'Superstore Kiel');
+INSERT INTO ShopID (ShopID, StadtID, Name) VALUES (16, 16, 'Superstore Erfurt');
+
+INSERT INTO ProductCategoryID (ProductCategoryID, Name) VALUES (1, 'Heimelektronik');
+INSERT INTO ProductCategoryID (ProductCategoryID, Name) VALUES (2, 'Großgeräte');
+
+INSERT INTO ProductFamilyID (ProductFamilyID, ProductCategoryID, Name) VALUES (1, 1, 'Video');
+INSERT INTO ProductFamilyID (ProductFamilyID, ProductCategoryID, Name) VALUES (2, 1, 'Audio');
+INSERT INTO ProductFamilyID (ProductFamilyID, ProductCategoryID, Name) VALUES (3, 2, 'Haushaltsgeräte');
+INSERT INTO ProductFamilyID (ProductFamilyID, ProductCategoryID, Name) VALUES (4, 2, 'Gartengeräte');
+
+INSERT INTO ProductGroupID (ProductGroupID, ProductFamilyID, Name) VALUES (1, 1, 'HD-Rekorder');
+INSERT INTO ProductGroupID (ProductGroupID, ProductFamilyID, Name) VALUES (2, 1, 'Camcorder');
+INSERT INTO ProductGroupID (ProductGroupID, ProductFamilyID, Name) VALUES (3, 2, 'CD-Player');
+INSERT INTO ProductGroupID (ProductGroupID, ProductFamilyID, Name) VALUES (4, 2, 'Plattenspieler');
+INSERT INTO ProductGroupID (ProductGroupID, ProductFamilyID, Name) VALUES (5, 3, 'Waschmaschienen');
+INSERT INTO ProductGroupID (ProductGroupID, ProductFamilyID, Name) VALUES (6, 3, 'Trockner');
+INSERT INTO ProductGroupID (ProductGroupID, ProductFamilyID, Name) VALUES (7, 4, 'Rasenmäher');
+INSERT INTO ProductGroupID (ProductGroupID, ProductFamilyID, Name) VALUES (8, 4, 'Vertikutierer');
+
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (1,1,'Pioneer DVR-550HX',469.989990234375);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (2,1,'LG RH-T 298',409.989990234375);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (3,1,'Samsung DVD-SR275',79.98999786376953);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (4,1,'BenQ DE350P',269.989990234375);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (5,2,'Panasonic HDC-SD707',779.989990234375);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (6,2,'Sony HDR-CX115',398.989990234375);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (7,2,'Kodak Zx3 Playsport',129.99000549316406);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (8,2,'Toshiba Camileo S20',99.98999786376953);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (9,3,'Onkyo DX-7355',139.99000549316406);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (10,3,'Yamaha CDX-497',239.99000549316406);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (11,3,'Sony CDP-XE370',140.89999389648438);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (12,3,'Denon DCD-710AE',369.0);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (13,4,'Sony PS-LX 300 USB',138.0);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (14,4,'Technics SL-1210 MK5',599.0);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (15,4,'Jaytec DJT-20',89.9000015258789);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (16,4,'Numark TT1650',148.99000549316406);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (17,5,'AEG Öko-Lavamat Öko Plus 1400',599.0);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (18,5,'Bosch WAE 2834P',499.0);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (19,5,'Miele Softtronic W 3241 WPS',798.0);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (20,5,'Bauknecht WA Sensitive 36 DI',349.8999938964844);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (21,6,'AEG Öko Lavatherm 59850 Sensidry',999.0);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (22,6,'Bauknecht TK Care 6B',279.9800109863281);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (23,6,'Miele Softtronic T 7744 C',749.0);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (24,6,'Bosch WTE 84301',449.0);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (25,7,'Wolf-Garten 2.34 E',149.0);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (26,7,'Bosch Rotak 43 LI (Modell 2009)',399.0);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (27,7,'Einhell RPM 56 S-MS',299.989990234375);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (28,7,'Gardena PowerMax 42 E',199.99000549316406);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (29,8,'Wolf-Garten Campus 1000 V',89.9000015258789);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (30,8,'Güde GV 2400 SL',249.0);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (31,8,'Brill 28 VE/RL',139.0);
+INSERT INTO ARTICLEID (ARTICLEID,PRODUCTGROUPID,NAME,PREIS) VALUES (32,8,'Gardena CS Vertikutier-Boy (3395-20)',49.900001525878906);
