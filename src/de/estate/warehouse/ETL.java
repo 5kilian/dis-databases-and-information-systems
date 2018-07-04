@@ -1,7 +1,6 @@
 package de.estate.warehouse;
 
 import de.estate.warehouse.model.CsvProduct;
-import de.estate.warehouse.model.Shop;
 import de.estate.warehouse.service.ShopService;
 
 import java.io.BufferedReader;

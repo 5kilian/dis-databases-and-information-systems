@@ -13,7 +13,7 @@ public class Productgroup {
 
     @ManyToOne
     @JoinColumn(name="PRODUCTFAMILYID", nullable=false)
-    private int productfamilyId;
+    private Productfamily productfamily;
 
     @Column(columnDefinition = "VARCHAR(255)")
     private String name;
@@ -27,12 +27,12 @@ public class Productgroup {
         this.id = id;
     }
 
-    public int getProductfamilyId() {
-        return productfamilyId;
+    public Productfamily getProductfamily() {
+        return productfamily;
     }
 
-    public void setProductfamilyId(int productfamilyId) {
-        this.productfamilyId = productfamilyId;
+    public void setProductfamily(Productfamily productfamily) {
+        this.productfamily = productfamily;
     }
 
     public String getName() {

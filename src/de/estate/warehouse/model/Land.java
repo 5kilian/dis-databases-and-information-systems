@@ -15,7 +15,6 @@ public class Land {
     private String name;
 
 
-
     public int getLandid() {
         return landid;
     }

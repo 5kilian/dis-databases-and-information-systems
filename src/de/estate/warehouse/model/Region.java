@@ -13,7 +13,7 @@ public class Region {
 
     @ManyToOne
     @JoinColumn(name="landid", nullable=false)
-    private int landId;
+    private Land land;
 
     @Column(columnDefinition = "VARCHAR(255)")
     private String name;
@@ -26,12 +26,12 @@ public class Region {
         this.regionid = regionid;
     }
 
-    public int getLandId() {
-        return landId;
+    public Land getLand() {
+        return land;
     }
 
-    public void setLandId(int landId) {
-        this.landId = landId;
+    public void setLand(Land land) {
+        this.land = land;
     }
 
     public String getName() {

@@ -11,9 +11,17 @@ public class Stadt {
     @Column(name = "STADID")
     private int id = -1;
 
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
     @ManyToOne
     @JoinColumn(name="REGIONID", nullable=false)
-    private int regionId;
+    private Region region;
 
     @Column(columnDefinition = "VARCHAR(255)")
     private String name;
@@ -24,14 +32,6 @@ public class Stadt {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getRegionId() {
-        return regionId;
-    }
-
-    public void setRegionId(int regionId) {
-        this.regionId = regionId;
     }
 
     public String getName() {
