@@ -55,6 +55,7 @@ public class ETL {
                     csvProducts.add(product);
                 } catch (Exception e) {
                     System.out.println("Cannot read line: " + line);
+                    e.printStackTrace();
                 }
             }
 

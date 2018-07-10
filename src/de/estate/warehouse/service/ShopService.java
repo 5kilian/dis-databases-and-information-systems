@@ -30,6 +30,8 @@ public class ShopService {
         session.beginTransaction();
         Query query = session.createQuery("SELECT s FROM SHOPID s WHERE s.NAME = :name");
         query.setParameter("name", name);
-        return (Shop) query.getSingleResult();
+        Shop shop = (Shop) query.getSingleResult();
+        session.getTransaction().commit();
+        return shop;
     }
 }

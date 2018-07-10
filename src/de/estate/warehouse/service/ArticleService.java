@@ -20,6 +20,8 @@ public class ArticleService {
         session.beginTransaction();
         Query query = session.createQuery("SELECT a FROM ARTICLEID a WHERE a.NAME = :name");
         query.setParameter("name", name);
-        return (Article) query.getSingleResult();
+        Article article = (Article) query.getSingleResult();
+        session.getTransaction().commit();
+        return article;
     }
 }
