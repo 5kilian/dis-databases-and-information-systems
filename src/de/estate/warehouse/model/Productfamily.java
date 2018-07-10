@@ -1,6 +1,7 @@
 package de.estate.warehouse.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "PRODUCTFAMILYID")
@@ -12,7 +13,7 @@ public class Productfamily {
     private int id = -1;
 
     @OneToMany(mappedBy="productfamily")
-    private Productgroup productgroup;
+    private List<Productgroup> productgroup;
 
     @Column(columnDefinition = "VARCHAR(255)")
     private String name;
@@ -26,11 +27,11 @@ public class Productfamily {
         this.id = id;
     }
 
-    public Productgroup getProductgroup() {
+    public List<Productgroup> getProductgroup() {
         return productgroup;
     }
 
-    public void setProductgroup(Productgroup productgroup) {
+    public void setProductgroup(List<Productgroup> productgroup) {
         this.productgroup = productgroup;
     }
 
