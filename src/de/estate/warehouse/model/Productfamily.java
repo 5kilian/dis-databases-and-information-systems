@@ -11,8 +11,7 @@ public class Productfamily {
     @Column(name = "PRODUCTFAMILYID")
     private int id = -1;
 
-    @ManyToOne
-    @JoinColumn(name="PRODUCTCATEGORYID", nullable=false)
+    @OneToMany(mappedBy="productfamily")
     private Productgroup productgroup;
 
     @Column(columnDefinition = "VARCHAR(255)")
