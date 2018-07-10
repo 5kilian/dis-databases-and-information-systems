@@ -1,6 +1,7 @@
 package de.estate.warehouse;
 
 import de.estate.warehouse.model.CsvProduct;
+import de.estate.warehouse.service.ArticleService;
 import de.estate.warehouse.service.ShopService;
 
 import java.io.BufferedReader;
@@ -12,6 +13,8 @@ public class ETL {
 
     private ShopService shopService;
 
+    private ArticleService articleService;
+
     private List<CsvProduct> csvProducts = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -20,6 +23,7 @@ public class ETL {
 
     public ETL() {
         shopService = new ShopService();
+        articleService = new ArticleService();
 
         extract("./src/de/estate/resources/warehouse/sales.csv");
         transform();
@@ -34,9 +38,6 @@ public class ETL {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(csv));
 
-            // Get all shops
-            List shops = shopService.getAll();
-
             // skip the first row
             reader.readLine();
 
@@ -46,8 +47,8 @@ public class ETL {
                 try {
                     CsvProduct product = new CsvProduct();
                     product.setDate(productLine[0]);
-                    product.setShop(productLine[1]);
-                    product.setArticle(productLine[2]);
+                    product.setShop(shopService.getByName(productLine[1]));
+                    product.setArticle(articleService.getByName(productLine[2]));
                     product.setSales(Integer.valueOf(productLine[3]));
                     product.setRevenue(Double.valueOf(productLine[4].replace(',', '.')));
 
