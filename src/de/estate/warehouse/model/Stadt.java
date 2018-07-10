@@ -20,7 +20,6 @@ public class Stadt {
     }
 
     @ManyToOne
-    @JoinColumn(name="REGIONID", nullable=false)
     private Region region;
 
     @Column(columnDefinition = "VARCHAR(255)")

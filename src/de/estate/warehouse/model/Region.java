@@ -12,7 +12,6 @@ public class Region {
     private int regionid = -1;
 
     @ManyToOne
-    @JoinColumn(name="landid", nullable=false)
     private Land land;
 
     @Column(columnDefinition = "VARCHAR(255)")

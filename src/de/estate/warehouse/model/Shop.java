@@ -12,7 +12,6 @@ public class Shop {
     private int id = -1;
 
     @ManyToOne
-    @JoinColumn(name="STADTID", nullable=false)
     private Stadt stadt;
 
     @Column(columnDefinition = "VARCHAR(255)")
