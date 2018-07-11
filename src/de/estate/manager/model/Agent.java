@@ -1,9 +1,5 @@
 package de.estate.manager.model;
 
-import org.hibernate.annotations.Loader;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLInsert;
-import org.hibernate.annotations.SQLUpdate;
 
 import javax.persistence.*;
 

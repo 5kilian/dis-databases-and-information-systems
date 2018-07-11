@@ -12,8 +12,9 @@ public class Productfamily {
     @Column(name = "PRODUCTFAMILYID")
     private int id = -1;
 
-    @OneToMany(mappedBy="productfamily")
-    private List<Productgroup> productgroup;
+    @ManyToOne
+    @JoinColumn(name="PRODUCTCATEGORYID", nullable=false)
+    private Productcategory productcategory;
 
     @Column(columnDefinition = "VARCHAR(255)")
     private String name;
@@ -27,12 +28,12 @@ public class Productfamily {
         this.id = id;
     }
 
-    public List<Productgroup> getProductgroup() {
-        return productgroup;
+    public Productcategory getProductcategory() {
+        return productcategory;
     }
 
-    public void setProductgroup(List<Productgroup> productgroup) {
-        this.productgroup = productgroup;
+    public void setProductcategory(Productcategory productcategory) {
+        this.productcategory = productcategory;
     }
 
     public String getName() {

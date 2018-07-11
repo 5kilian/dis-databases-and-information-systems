@@ -9,9 +9,11 @@ public class Region {
 
     @Id
     @GeneratedValue
+    @Column(name = "REGIONID")
     private int regionid = -1;
 
     @ManyToOne
+    @JoinColumn(name="LANDID", nullable=false)
     private Land land;
 
     @Column(columnDefinition = "VARCHAR(255)")

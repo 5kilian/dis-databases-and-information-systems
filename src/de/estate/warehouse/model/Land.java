@@ -9,18 +9,18 @@ public class Land {
 
     @Id
     @GeneratedValue
-    private int landid = -1;
+    @Column(name = "LANDID")
+    private int id = -1;
 
     @Column(columnDefinition = "VARCHAR(255)")
     private String name;
 
-
-    public int getLandid() {
-        return landid;
+    public int getId() {
+        return id;
     }
 
-    public void setLandid(int landid) {
-        this.landid = landid;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -4,9 +4,8 @@ import de.estate.warehouse.model.Shop;
 import de.estate.warehouse.util.SessionFactory_hib;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
-
-import javax.persistence.Query;
 import java.util.List;
 
 public class ShopService {
@@ -20,7 +19,7 @@ public class ShopService {
     public List getAll() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List shops = session.createQuery("FROM SHOPID").list();
+        List shops = session.createQuery("FROM Shop").list();
         session.getTransaction().commit();
         return shops;
     }
@@ -28,7 +27,7 @@ public class ShopService {
     public Shop getByName(String name) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Query query = session.createQuery("SELECT s FROM SHOPID s WHERE s.NAME = :name");
+        Query query = session.createQuery("FROM Shop s WHERE s.name = :name");
         query.setParameter("name", name);
         Shop shop = (Shop) query.getSingleResult();
         session.getTransaction().commit();

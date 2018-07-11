@@ -1,8 +1,13 @@
 package de.estate.warehouse;
 
-import de.estate.warehouse.model.CsvProduct;
+import de.estate.warehouse.model.Article;
+import de.estate.warehouse.model.Shop;
+import de.estate.warehouse.model.Sold;
 import de.estate.warehouse.service.ArticleService;
 import de.estate.warehouse.service.ShopService;
+import de.estate.warehouse.util.SessionFactory_hib;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,7 +20,7 @@ public class ETL {
 
     private ArticleService articleService;
 
-    private List<CsvProduct> csvProducts = new ArrayList<>();
+    private List<Sold> csvProducts = new ArrayList<>();
 
     public static void main(String[] args) {
         new ETL();
@@ -41,18 +46,31 @@ public class ETL {
             // skip the first row
             reader.readLine();
 
+            List shops = shopService.getAll();
+            List articles = articleService.getAll();
+
+
+            SessionFactory sessionFactory = SessionFactory_hib.getSessionFactory();
+
             while ((line = reader.readLine()) != null) {
+
+
                 String[] productLine = line.split(";");
 
                 try {
-                    CsvProduct product = new CsvProduct();
-                    product.setDate(productLine[0]);
-                    product.setShop(shopService.getByName(productLine[1]));
-                    product.setArticle(articleService.getByName(productLine[2]));
-                    product.setSales(Integer.valueOf(productLine[3]));
-                    product.setRevenue(Double.valueOf(productLine[4].replace(',', '.')));
+                    Sold sold = new Sold();
+                    sold.setDate(productLine[0]);
+                    sold.setShop(getShopByName(shops, productLine[1]));
+                    sold.setArticle(getArticleByName(articles, productLine[2]));
+                    sold.setSales(Integer.valueOf(productLine[3]));
+                    sold.setRevenue(Double.valueOf(productLine[4].replace(',', '.')));
 
-                    csvProducts.add(product);
+                    Session session = sessionFactory.getCurrentSession();
+                    session.beginTransaction();
+                    session.save(sold);
+                    session.getTransaction().commit();
+
+                    csvProducts.add(sold);
                 } catch (Exception e) {
                     System.out.println("Cannot read line: " + line);
                     e.printStackTrace();
@@ -64,6 +82,20 @@ public class ETL {
             e.printStackTrace();
         }
     }
+
+    private Shop getShopByName(List<Shop> shops, String name) {
+        for (Shop shop : shops) {
+            if (shop.getName().equals(name)) return shop;
+        }
+        return null;
+    }
+    private Article getArticleByName(List<Article> articles, String name) {
+        for (Article article : articles) {
+            if (article.getName().equals(name)) return article;
+        }
+        return null;
+    }
+
 
     public void transform() {
 

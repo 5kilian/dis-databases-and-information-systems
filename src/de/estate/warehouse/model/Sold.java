@@ -3,13 +3,15 @@ package de.estate.warehouse.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "CSVPRODUCTID")
-public class CsvProduct {
+@Table(name = "SOLDID")
+public class Sold {
 
     @Id
     @GeneratedValue
+    @Column(name = "SOLDID")
     private int id;
 
+    @Column(name = "DATE")
     private String date;
 
     @ManyToOne
@@ -20,9 +22,19 @@ public class CsvProduct {
     @JoinColumn(name="ARTICLEID")
     private Article article;
 
+    @Column(name = "SALES")
     private int sales;
 
+    @Column(name = "REVENUE")
     private double revenue;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getDate() {
         return date;

@@ -8,7 +8,7 @@ public class Stadt {
 
     @Id
     @GeneratedValue
-    @Column(name = "STADID")
+    @Column(name = "STADTID")
     private int id = -1;
 
     public Region getRegion() {
@@ -20,6 +20,7 @@ public class Stadt {
     }
 
     @ManyToOne
+    @JoinColumn(name="REGIONID", nullable=false)
     private Region region;
 
     @Column(columnDefinition = "VARCHAR(255)")

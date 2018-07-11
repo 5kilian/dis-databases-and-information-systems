@@ -28,6 +28,6 @@
 		<mapping class="de.estate.warehouse.model.Region" />
 		<mapping class="de.estate.warehouse.model.Shop" />
 		<mapping class="de.estate.warehouse.model.Stadt" />
-		<mapping class="de.estate.warehouse.model.CsvProduct" />
+		<mapping class="de.estate.warehouse.model.Sold" />
 	</session-factory>
 </hibernate-configuration>
